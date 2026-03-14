@@ -20,7 +20,7 @@ export default function RegisterPage() {
       setLoading(true);
       const user = await loginWithGoogle(credentialResponse.credential, role);
       toast.success(`Welcome, ${user.name}!`);
-      navigate(user.role === "recruiter" ? "/dashboard" : "/");
+      navigate(user.role === "recruiter" ? "/dashboard" : "/candidate-dashboard");
     } catch (err) {
       toast.error("Google registration failed");
     } finally {
@@ -35,7 +35,7 @@ export default function RegisterPage() {
     try {
       const user = await register(name, email, password, role);
       toast.success(`Welcome, ${user.name}!`);
-      navigate(user.role === "recruiter" ? "/dashboard" : "/");
+      navigate(user.role === "recruiter" ? "/dashboard" : "/candidate-dashboard");
     } catch (err) {
       toast.error(err.response?.data?.message || "Registration failed");
     } finally {

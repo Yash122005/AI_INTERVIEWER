@@ -7,6 +7,12 @@ const userSchema = new mongoose.Schema(
     passwordHash: { type: String }, // Optional for Google users
     googleId: { type: String, unique: true, sparse: true },
     role: { type: String, enum: ["recruiter", "candidate"], required: true },
+    profile: {
+      role: String,
+      skills: String,
+      projects: String,
+      experience: String
+    },
   },
   { timestamps: true }
 );

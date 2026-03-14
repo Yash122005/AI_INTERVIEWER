@@ -10,6 +10,7 @@ import CreateSessionPage from "./pages/CreateSessionPage";
 import InterviewPage from "./pages/InterviewPage";
 import CandidateSummary from "./pages/CandidateSummary";
 import SessionReport from "./pages/SessionReport";
+import CandidateDashboard from "./pages/CandidateDashboard";
 
 function AppRoutes() {
   const { user, loading } = useAuth();
@@ -25,8 +26,8 @@ function AppRoutes() {
 
   return (
     <Routes>
-      <Route path="/login" element={user ? <Navigate to={user.role === "recruiter" ? "/dashboard" : "/"} /> : <LoginPage />} />
-      <Route path="/register" element={user ? <Navigate to={user.role === "recruiter" ? "/dashboard" : "/"} /> : <RegisterPage />} />
+      <Route path="/login" element={user ? <Navigate to={user.role === "recruiter" ? "/dashboard" : "/candidate-dashboard"} /> : <LoginPage />} />
+      <Route path="/register" element={user ? <Navigate to={user.role === "recruiter" ? "/dashboard" : "/candidate-dashboard"} /> : <RegisterPage />} />
 
       <Route path="/dashboard" element={
         <ProtectedRoute requiredRole="recruiter"><RecruiterDashboard /></ProtectedRoute>
@@ -40,6 +41,9 @@ function AppRoutes() {
 
       <Route path="/interview/:token" element={<InterviewPage />} />
       <Route path="/summary/:sessionId" element={<CandidateSummary />} />
+      <Route path="/candidate-dashboard" element={
+        <ProtectedRoute requiredRole="candidate"><CandidateDashboard /></ProtectedRoute>
+      } />
 
       <Route path="/" element={
         !user ? (
@@ -47,14 +51,7 @@ function AppRoutes() {
         ) : user.role === "recruiter" ? (
           <Navigate to="/dashboard" />
         ) : (
-          <div className="page-container" style={{ textAlign: "center", marginTop: "100px" }}>
-            <h1 style={{ fontSize: "32px", marginBottom: "16px", background: "var(--accent-gradient)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
-              Welcome, {user.name}
-            </h1>
-            <p style={{ color: "var(--text-secondary)", fontSize: "18px" }}>
-              Please use the interview link provided by your recruiter to start your session.
-            </p>
-          </div>
+          <Navigate to="/candidate-dashboard" />
         )
       } />
       <Route path="*" element={<Navigate to="/" replace />} />

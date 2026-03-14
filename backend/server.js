@@ -7,6 +7,7 @@ import http from "http";
 import connectDB from "./config/db.js";
 import { initSocket } from "./socket/socket.js";
 import authRoutes from "./routes/auth.routes.js";
+import candidateRoutes from "./routes/candidate.routes.js";
 import sessionRoutes from "./routes/session.routes.js";
 import interviewRoutes from "./routes/interview.routes.js";
 
@@ -26,6 +27,7 @@ app.set("io", io);
 
 // Routes
 app.use("/api/auth", authRoutes);
+app.use("/api/candidate", candidateRoutes);
 app.use("/api/sessions", sessionRoutes);
 app.use("/api/interview", interviewRoutes);
 

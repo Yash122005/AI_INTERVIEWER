@@ -23,7 +23,7 @@ export const joinSession = async (req, res) => {
     // Generate the first question
     const firstRound = session.rounds[0];
     const { question, type } = await generateQuestion(
-      session.jobTitle, session.skills, session.experienceLevel, firstRound, [], 5
+      session.jobTitle, session.skills, session.experienceLevel, firstRound, [], 5, session.candidateProjects
     );
 
     // Emit to recruiter via Socket.IO
@@ -122,7 +122,7 @@ const { sessionId, questionText, answerText, round, questionType, timeTaken } = 
 
       const generated = await generateQuestion(
         session.jobTitle, session.skills, session.experienceLevel,
-        nextRound, recentHistory, avgScore
+        nextRound, recentHistory, avgScore, session.candidateProjects
       );
       nextQuestion = generated.question;
     }

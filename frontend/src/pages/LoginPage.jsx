@@ -18,7 +18,7 @@ export default function LoginPage() {
       setLoading(true);
       const user = await loginWithGoogle(credentialResponse.credential);
       toast.success(`Welcome, ${user.name}!`);
-      navigate(user.role === "recruiter" ? "/dashboard" : "/");
+      navigate(user.role === "recruiter" ? "/dashboard" : "/candidate-dashboard");
     } catch (err) {
       toast.error("Google login failed");
     } finally {
@@ -32,7 +32,7 @@ export default function LoginPage() {
     try {
       const user = await login(email, password);
       toast.success(`Welcome back, ${user.name}!`);
-      navigate(user.role === "recruiter" ? "/dashboard" : "/");
+      navigate(user.role === "recruiter" ? "/dashboard" : "/candidate-dashboard");
     } catch (err) {
       toast.error(err.response?.data?.message || "Login failed");
     } finally {

@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import api from "../lib/axios";
 import RoundProgress from "../components/RoundProgress";
-import { Send, Bot, User, Loader2, Clock, Zap, ShieldCheck, ShieldAlert, Mic, MicOff, Volume2 } from "lucide-react";
+import { Send, Bot, User, Loader2, Clock, Zap, ShieldCheck, ShieldAlert, Mic, MicOff, Volume2, XCircle } from "lucide-react";
 import toast from "react-hot-toast";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaceDetector, FilesetResolver } from "@mediapipe/tasks-vision";
@@ -425,6 +425,30 @@ export default function InterviewPage() {
     questionStartTime.current = Date.now();
   }, [currentQuestion]);
 
+
+  const handleCloseInterview = async () => {
+    if (window.confirm("Are you sure you want to end the interview early? This will submit your current progress.")) {
+      setIsComplete(true);
+      if (sessionId) {
+        try {
+          await api.post(`/interview/complete/${sessionId}`);
+          toast.success("Interview closed early. Forwarding to summary...");
+          setTimeout(() => navigate(`/summary/${sessionId}`), 1500);
+        } catch (err) {
+          toast.error("Failed to complete interview properly.");
+        }
+      } else {
+        navigate("/");
+      }
+    }
+  };
+
+  
+  
+  
+  
+  
+
   const submitAnswer = async () => {
     if (!input.trim() || loading) return;
     
@@ -637,12 +661,30 @@ export default function InterviewPage() {
               {trustScore}% Trust
             </span>
           </div>
+          
+          
+          
           {cameraActive && (
             <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
               <div style={{ width: 8, height: 8, borderRadius: "50%", background: "var(--danger)", animation: "pulse 1.5s infinite" }} />
               <span style={{ fontSize: 12, color: "var(--danger)", fontWeight: 'bold' }}>MONITORING ACTIVE</span>
             </div>
           )}
+          <button 
+            onClick={handleCloseInterview}
+            style={{
+              padding: "6px 12px", borderRadius: 8, display: "flex", alignItems: "center", gap: 6,
+              background: "rgba(239, 68, 68, 0.1)", border: "1px solid rgba(239, 68, 68, 0.3)",
+              color: "var(--danger)", cursor: "pointer", transition: "all 0.2s"
+            }}
+            onMouseOver={(e) => e.currentTarget.style.background = "var(--danger)"}
+            onMouseOut={(e) => e.currentTarget.style.background = "rgba(239, 68, 68, 0.1)"}
+            onMouseEnter={(e) => e.currentTarget.style.color = "#fff"}
+            onMouseLeave={(e) => e.currentTarget.style.color = "var(--danger)"}
+          >
+            <XCircle size={14} /> <span style={{ fontSize: 13, fontWeight: "bold" }}>End Interview</span>
+          </button>
+
         </div>
       </div>
 

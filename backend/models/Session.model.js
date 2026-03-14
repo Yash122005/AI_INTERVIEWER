@@ -20,6 +20,7 @@ const sessionSchema = new mongoose.Schema(
     shareableToken: { type: String, unique: true, required: true },
     candidateId: { type: mongoose.Schema.Types.ObjectId, ref: "User", default: null },
     candidateName: { type: String, default: null },
+    candidateProjects: { type: String, default: "" },
     proctoring: {
       tabSwitches: { type: Number, default: 0 },
       copyPasteAttempts: { type: Number, default: 0 },

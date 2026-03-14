@@ -64,12 +64,13 @@ async function generateWithFallback(prompt) {
 
 
 // Generate a single interview question
-export async function generateQuestion(jobTitle, skills, level, round, history = [], avgScore = 5) {
+export async function generateQuestion(jobTitle, skills, level, round, history = [], avgScore = 5, candidateProjects = "") {
   const historyText = history.length > 0
     ? history.map((h, i) => `Q${i + 1}: ${h.question}\nA${i + 1}: ${h.answer}`).join("\n\n")
     : "No previous questions yet.";
 
-  const prompt = `Round: ${round}. Role: ${jobTitle}. Skills: ${skills.join(", ")}. Level: ${level}.
+  const projectsText = candidateProjects ? `Candidate Projects/Experience: ${candidateProjects}. Ask deeply about this.` : "";
+  const prompt = `Round: ${round}. Role: ${jobTitle}. Skills: ${skills.join(", ")}. Level: ${level}. ${projectsText}
 Score: ${avgScore}/10. History: ${historyText}
 Generate ONE specific interview question. Return JSON: { "question": "string", "type": "technical" }`;
 
