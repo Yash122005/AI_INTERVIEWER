@@ -1,0 +1,31 @@
+# render.yaml — Render Blueprint for one-click deployment
+# https://render.com/docs/blueprint-spec
+
+services:
+  - type: web
+    name: interviewiq
+    runtime: node
+    plan: free
+    buildCommand: npm run build
+    startCommand: npm run start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: MONGO_URI
+        sync: false           # Set in Render dashboard
+      - key: JWT_SECRET
+        generateValue: true   # Auto-generate a secure random value
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: GOOGLE_CLIENT_ID
+        sync: false
+      - key: GOOGLE_CLIENT_SECRET
+        sync: false
+      - key: CLIENT_URL
+        sync: false           # Set to your Render URL, e.g. https://interviewiq.onrender.com
+      - key: GMAIL_USER
+        sync: false
+      - key: GMAIL_APP_PASSWORD
+        sync: false

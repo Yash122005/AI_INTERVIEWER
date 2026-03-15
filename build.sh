@@ -1,12 +1,9 @@
-#!/usr/bin/env opt/render/bin/bash
+#!/usr/bin/env bash
 
 # Exit on error
 set -o errexit
 
-echo "📦 Installing root dependencies..."
-npm install
-
-echo "🔌 Installing backend dependencies..."
+echo "📦 Installing backend dependencies..."
 cd backend && npm install
 cd ..
 

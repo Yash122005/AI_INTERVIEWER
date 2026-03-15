@@ -31,24 +31,7 @@ import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Serve frontend in production
-if (process.env.NODE_ENV === "production" || process.env.RENDER) {
-  const publicPath = path.join(__dirname, "public");
-  const distPath = path.join(__dirname, "../frontend/dist");
-  
-  // Try to serve from 'public' first (consolidated build), then falling back to '../frontend/dist'
-  app.use(express.static(publicPath));
-  app.use(express.static(distPath));
-  
-  app.get("*", (req, res) => {
-    if (!req.path.startsWith("/api/")) {
-      // Check which one exists or just send from distPath as fallback
-      res.sendFile(path.resolve(distPath, "index.html"));
-    }
-  });
-}
-
-// Routes
+// API Routes — MUST be defined BEFORE the wildcard catch-all
 app.use("/api/auth", authRoutes);
 app.use("/api/candidate", candidateRoutes);
 app.use("/api/sessions", sessionRoutes);
@@ -59,12 +42,26 @@ app.get("/api/health", (req, res) => {
   res.json({ status: "ok", timestamp: new Date().toISOString() });
 });
 
+// Serve frontend in production
+if (process.env.NODE_ENV === "production" || process.env.RENDER) {
+  const distPath = path.join(__dirname, "../frontend/dist");
+
+  // Serve static assets from the Vite build output
+  app.use(express.static(distPath));
+
+  // SPA fallback — any non-API route serves index.html
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(distPath, "index.html"));
+  });
+}
+
 // Start server
 const PORT = process.env.PORT || 5001;
 
 connectDB().then(() => {
-  server.listen(PORT, () => {
+  server.listen(PORT, "0.0.0.0", () => {
     console.log(`🚀 InterviewIQ Server running on port ${PORT}`);
+    console.log(`📦 Environment: ${process.env.NODE_ENV || "development"}`);
   });
 }).catch(err => {
   console.error("❌ MongoDB connection failed:", err.message);
