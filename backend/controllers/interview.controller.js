@@ -164,15 +164,19 @@ export const completeInterview = async (req, res) => {
     if (!session) return res.status(404).json({ message: "Session not found" });
 
     const allAnswers = await Answer.find({ sessionId }).sort({ createdAt: 1 });
-    if (allAnswers.length === 0) {
-      return res.status(400).json({ message: "No answers found for this session" });
-    }
-
-    // Aggregate scores
+    
+    // Aggregate scores (handles empty answers internally)
     const { overallScore, roundScores, dimensionScores } = aggregateScores(allAnswers, session.rounds);
 
-    // Generate AI report
-    const { aiSummary, recommendation } = await genAIReport(session, allAnswers);
+    // Generate AI report with fallback for empty sessions
+    let aiSummary = "No answers were submitted during this session.";
+    let recommendation = "reject";
+
+    if (allAnswers.length > 0) {
+      const aiReport = await genAIReport(session, allAnswers);
+      aiSummary = aiReport.aiSummary;
+      recommendation = aiReport.recommendation;
+    }
 
     // Save report
     const report = await Report.findOneAndUpdate(

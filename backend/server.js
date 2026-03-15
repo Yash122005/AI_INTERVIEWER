@@ -33,12 +33,17 @@ const __dirname = path.dirname(__filename);
 
 // Serve frontend in production
 if (process.env.NODE_ENV === "production" || process.env.RENDER) {
-  app.use(express.static(path.join(__dirname, "../frontend/dist")));
+  const publicPath = path.join(__dirname, "public");
+  const distPath = path.join(__dirname, "../frontend/dist");
+  
+  // Try to serve from 'public' first (consolidated build), then falling back to '../frontend/dist'
+  app.use(express.static(publicPath));
+  app.use(express.static(distPath));
   
   app.get("*", (req, res) => {
-    // Only handle non-API routes
     if (!req.path.startsWith("/api/")) {
-      res.sendFile(path.resolve(__dirname, "../frontend/dist/index.html"));
+      // Check which one exists or just send from distPath as fallback
+      res.sendFile(path.resolve(distPath, "index.html"));
     }
   });
 }
@@ -61,4 +66,7 @@ connectDB().then(() => {
   server.listen(PORT, () => {
     console.log(`🚀 InterviewIQ Server running on port ${PORT}`);
   });
+}).catch(err => {
+  console.error("❌ MongoDB connection failed:", err.message);
+  process.exit(1);
 });

@@ -2,6 +2,8 @@ import { nanoid } from "nanoid";
 import Session from "../models/Session.model.js";
 import Answer from "../models/Answer.model.js";
 import Report from "../models/Report.model.js";
+import User from "../models/User.model.js";
+import { sendInterviewLink } from "../services/email.service.js";
 
 export const createSession = async (req, res) => {
   try {
@@ -117,5 +119,30 @@ export const logProctoringEvent = async (req, res) => {
   } catch (error) {
     console.error("Log proctoring event error:", error.message);
     res.status(500).json({ message: "Server error" });
+  }
+};
+
+export const getAllCandidates = async (req, res) => {
+  try {
+    const candidates = await User.find({ role: "candidate" }).select("name email profile");
+    res.json(candidates);
+  } catch (error) {
+    console.error("Get candidates error:", error.message);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+export const sendInterviewEmail = async (req, res) => {
+  try {
+    const { email, candidateName, jobTitle, interviewLink } = req.body;
+    if (!email || !candidateName || !jobTitle || !interviewLink) {
+      return res.status(400).json({ message: "Missing required fields" });
+    }
+
+    await sendInterviewLink(email, candidateName, jobTitle, interviewLink);
+    res.json({ message: "Email sent successfully" });
+  } catch (error) {
+    console.error("Send email error:", error.message);
+    res.status(500).json({ message: "Failed to send email. Check SMTP settings." });
   }
 };

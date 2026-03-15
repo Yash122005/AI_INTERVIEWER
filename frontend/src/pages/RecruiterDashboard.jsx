@@ -2,13 +2,16 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import api from "../lib/axios";
 import Navbar from "../components/Navbar";
-import { Plus, Users, Briefcase, Clock, ExternalLink, Copy } from "lucide-react";
+import { Plus, Users, Briefcase, Clock, ExternalLink, Copy, Mail } from "lucide-react";
 import toast from "react-hot-toast";
 import { motion } from "framer-motion";
+import SendLinkModal from "../components/SendLinkModal";
 
 export default function RecruiterDashboard() {
   const [sessions, setSessions] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedSession, setSelectedSession] = useState(null);
 
   useEffect(() => {
     fetchSessions();
@@ -29,6 +32,11 @@ export default function RecruiterDashboard() {
     const link = `${window.location.origin}/interview/${token}`;
     navigator.clipboard.writeText(link);
     toast.success("Interview link copied!");
+  };
+
+  const openInviteModal = (session) => {
+    setSelectedSession(session);
+    setModalOpen(true);
   };
 
   const statusColors = { pending: "badge-pending", ongoing: "badge-ongoing", completed: "badge-completed" };
@@ -149,6 +157,9 @@ export default function RecruiterDashboard() {
                             <button onClick={() => copyLink(session.shareableToken)} className="btn btn-secondary btn-sm" title="Copy Link">
                               <Copy size={14} />
                             </button>
+                            <button onClick={() => openInviteModal(session)} className="btn btn-secondary btn-sm" title="Send via Email">
+                              <Mail size={14} />
+                            </button>
                             <Link to={`/report/${session._id}`} className="btn btn-secondary btn-sm" title="View Report">
                               <ExternalLink size={14} />
                             </Link>
@@ -163,6 +174,12 @@ export default function RecruiterDashboard() {
           </div>
         </motion.div>
       </div>
+
+      <SendLinkModal 
+        isOpen={modalOpen} 
+        onClose={() => setModalOpen(false)} 
+        session={selectedSession} 
+      />
     </div>
   );
 }

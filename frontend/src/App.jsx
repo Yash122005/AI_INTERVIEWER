@@ -11,6 +11,7 @@ import InterviewPage from "./pages/InterviewPage";
 import CandidateSummary from "./pages/CandidateSummary";
 import SessionReport from "./pages/SessionReport";
 import CandidateDashboard from "./pages/CandidateDashboard";
+import CandidatesPage from "./pages/CandidatesPage";
 
 function AppRoutes() {
   const { user, loading } = useAuth();
@@ -37,6 +38,9 @@ function AppRoutes() {
       } />
       <Route path="/report/:sessionId" element={
         <ProtectedRoute requiredRole="recruiter"><SessionReport /></ProtectedRoute>
+      } />
+      <Route path="/candidates" element={
+        <ProtectedRoute requiredRole="recruiter"><CandidatesPage /></ProtectedRoute>
       } />
 
       <Route path="/interview/:token" element={<InterviewPage />} />
