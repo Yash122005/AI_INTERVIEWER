@@ -50,7 +50,7 @@ if (process.env.NODE_ENV === "production" || process.env.RENDER) {
   app.use(express.static(distPath));
 
   // SPA fallback — any non-API route serves index.html
-  app.get("*", (req, res) => {
+  app.get(/.*/, (req, res) => {
     res.sendFile(path.resolve(distPath, "index.html"));
   });
 }
