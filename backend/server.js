@@ -42,17 +42,26 @@ app.get("/api/health", (req, res) => {
   res.json({ status: "ok", timestamp: new Date().toISOString() });
 });
 
-// Serve frontend in production
+// Serve frontend in production (if it exists)
+import fs from "fs";
+
 if (process.env.NODE_ENV === "production" || process.env.RENDER) {
   const distPath = path.join(__dirname, "../frontend/dist");
 
-  // Serve static assets from the Vite build output
-  app.use(express.static(distPath));
+  if (fs.existsSync(distPath)) {
+    // Serve static assets from the Vite build output
+    app.use(express.static(distPath));
 
-  // SPA fallback — any non-API route serves index.html
-  app.get(/.*/, (req, res) => {
-    res.sendFile(path.resolve(distPath, "index.html"));
-  });
+    // SPA fallback — any non-API route serves index.html
+    app.get(/.*/, (req, res) => {
+      res.sendFile(path.resolve(distPath, "index.html"));
+    });
+  } else {
+    // API-only mode fallback
+    app.get("/", (req, res) => {
+      res.json({ message: "InterviewIQ API Backend is running successfully!" });
+    });
+  }
 }
 
 // Start server
