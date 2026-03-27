@@ -1,8 +1,18 @@
 import nodemailer from "nodemailer";
 
-const getTransporter = () => {
+const getTransporter = async () => {
   if (!process.env.GMAIL_USER || !process.env.GMAIL_APP_PASSWORD) {
-    console.error("❌ Email credentials missing in .env: GMAIL_USER or GMAIL_APP_PASSWORD is not set.");
+    console.warn("⚠️ Email credentials missing in .env. Using fallback ethereal test account.");
+    const testAccount = await nodemailer.createTestAccount();
+    return nodemailer.createTransport({
+      host: "smtp.ethereal.email",
+      port: 587,
+      secure: false, // true for 465, false for other ports
+      auth: {
+        user: testAccount.user, // generated ethereal user
+        pass: testAccount.pass, // generated ethereal password
+      },
+    });
   }
   
   return nodemailer.createTransport({
@@ -16,10 +26,10 @@ const getTransporter = () => {
 
 export const sendInterviewLink = async (toEmail, candidateName, jobTitle, interviewLink) => {
   console.log(`📧 Attempting to send interview link to: ${toEmail}`);
-  const transporter = getTransporter();
+  const transporter = await getTransporter();
   
   const mailOptions = {
-    from: `"InterviewIQ Team" <${process.env.GMAIL_USER}>`,
+    from: `"InterviewIQ Team" <${process.env.GMAIL_USER || "test@ethereal.email"}>`,
     to: toEmail,
     subject: `Interview Invitation for ${jobTitle} - InterviewIQ`,
     html: `
@@ -47,5 +57,10 @@ export const sendInterviewLink = async (toEmail, candidateName, jobTitle, interv
     `,
   };
 
-  return transporter.sendMail(mailOptions);
+  const info = await transporter.sendMail(mailOptions);
+  
+  if (!process.env.GMAIL_USER) {
+    console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+  }
+  return info;
 };
