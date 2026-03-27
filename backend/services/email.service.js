@@ -42,7 +42,7 @@ export const sendInterviewLink = async (toEmail, candidateName, jobTitle, interv
           You have been invited for an AI-powered interview for the position of <strong>${jobTitle}</strong>.
         </p>
         <div style="margin: 32px 0; text-align: center;">
-          <a href="${interviewLink}" style="background: linear-gradient(135deg, #6C63FF 0%, #00D4FF 100%); color: #ffffff; padding: 12px 24px; text-decoration: none; border-radius: 8px; font-weight: 600; display: inline-block;">
+          <a href="${interviewLink}" target="_blank" rel="noopener noreferrer" style="background: linear-gradient(135deg, #6C63FF 0%, #00D4FF 100%); color: #ffffff; padding: 12px 24px; text-decoration: none; border-radius: 8px; font-weight: 600; display: inline-block;">
             Start Interview
           </a>
         </div>
