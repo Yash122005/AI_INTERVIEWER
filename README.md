@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🧠 InterviewIQ
+#  InterviewIQ
 
 ### AI-Powered Intelligent Interview Simulation Platform
 
@@ -9,21 +9,20 @@
 [![MongoDB](https://img.shields.io/badge/MongoDB-Atlas-47A248?style=for-the-badge&logo=mongodb&logoColor=white)](https://www.mongodb.com/atlas)
 [![Gemini AI](https://img.shields.io/badge/Google-Gemini_AI-4285F4?style=for-the-badge&logo=google&logoColor=white)](https://ai.google.dev/)
 [![Socket.IO](https://img.shields.io/badge/Socket.IO-Realtime-010101?style=for-the-badge&logo=socket.io&logoColor=white)](https://socket.io/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)](LICENSE)
 
 **InterviewIQ** revolutionizes the recruitment process by enabling recruiters to create structured, AI-driven interview sessions. Candidates are evaluated in real-time across multiple dimensions — with adaptive questioning, live proctoring, and intelligent scoring — all powered by Google Gemini AI.
 
-[🚀 Live Demo](#-deployment) · [📖 Documentation](#-project-overview) · [🐛 Report Bug](../../issues) · [💡 Request Feature](../../issues)
+[ Live Demo](https://ai-interviewer-ayqc.vercel.app/)·[🐛 Report Bug](../../issues)
 
 </div>
 
 ---
 
-## 📖 Project Overview
+##  Project Overview
 
 **InterviewIQ** is a full-stack web application built during **Hack & Forge 2026** that simulates enterprise-grade interview experiences using AI. It bridges the gap between recruiters and candidates by automating the entire interview lifecycle — from creating role-specific sessions to generating comprehensive hiring reports.
 
-### 🎯 Problem It Solves
+###  Problem It Solves
 
 | Challenge | How InterviewIQ Addresses It |
 |---|---|
@@ -35,29 +34,29 @@
 
 ---
 
-## ✨ Key Features
+##  Key Features
 
-### 🔐 Authentication & Roles
+###  Authentication & Roles
 - **JWT-based** authentication with secure password hashing (bcrypt)
 - **Google OAuth 2.0** one-click sign-in
 - **Two distinct roles**: Recruiter (creates & manages) and Candidate (takes interviews)
 - **Quick registration** — candidates can join with just their name via a shared link
 
-### 📋 Interview Session Configuration *(Recruiter)*
+###  Interview Session Configuration *(Recruiter)*
 - Create sessions with **job title**, **required skills** (multi-tag input), and **experience level**
 - Select interview **rounds**: Introduction → Technical → Managerial
 - Configure **questions per round** (1–10) and **session time limit**
 - Generate a **unique shareable interview link** with one click
 - **Email invitations** — send interview links directly to candidates via Gmail integration
 
-### 🤖 AI Interview Engine *(Core Intelligence)*
+###  AI Interview Engine *(Core Intelligence)*
 - **Dynamic question generation** powered by Google Gemini AI
 - **Adaptive difficulty** — if a candidate scores high, questions get harder; shallow answers trigger follow-up drill-downs
 - **Context-aware** — AI remembers the full conversation history (last 5 Q&A pairs) for coherent progression
 - **Multi-round structure**: Intro → Technical → Managerial with smooth transitions
 - **Multi-model fallback** — automatically tries multiple Gemini models if one is unavailable
 
-### 📝 Real-Time Response Evaluation
+###  Real-Time Response Evaluation
 Every answer is scored across **4 dimensions** (0–10 each):
 
 | Dimension | What It Measures |
@@ -67,7 +66,7 @@ Every answer is scored across **4 dimensions** (0–10 each):
 | **Clarity & Communication** | Well-structured and readable? |
 | **Accuracy** | Technically and factually correct? |
 
-### 🛡️ AI Proctoring & Anti-Cheating
+###  AI Proctoring & Anti-Cheating
 - **Face detection** via MediaPipe — detects missing face, multiple faces, or looking away
 - **Tab switch monitoring** — logs every window/tab change with penalties
 - **Copy/paste & DevTools disabled** — keyboard shortcuts and right-click blocked
@@ -75,14 +74,14 @@ Every answer is scored across **4 dimensions** (0–10 each):
 - **Trust Score** — starts at 100% and decreases with each violation
 - **Camera & audio monitoring** — continuous live feed during the interview
 
-### 📊 Live Recruiter Dashboard
+###  Live Recruiter Dashboard
 - Real-time candidate progress via **Socket.IO** WebSocket updates
 - Watch answer history and running scores as they happen
 - View AI-generated evaluation notes per answer
 - Status badges: `Pending` → `Ongoing` → `Completed`
 - Manage all sessions from a centralized dashboard
 
-### 📈 Post-Interview Analytics & Reporting
+###  Post-Interview Analytics & Reporting
 - **Radar chart** visualization of dimension scores (Recharts)
 - **Overall score** out of 100 with color-coded severity
 - **AI Recommendation**: `HIRE` / `HOLD` / `REJECT` with reasoning
@@ -91,14 +90,14 @@ Every answer is scored across **4 dimensions** (0–10 each):
 - **Full interview transcript** — expandable Q&A accordion with per-answer scores
 - **PDF export** — download professional reports via jsPDF
 
-### 🎙️ Accessibility Features
+###  Accessibility Features
 - **Voice input** — speak your answers using Web Speech API
 - **Text-to-Speech** — AI questions are read aloud to the candidate
 - **Mobile responsive** design across all pages
 
 ---
 
-## 🏗️ System Architecture
+##  System Architecture
 
 ```
 ┌──────────────────────────────────────────────────────────────────┐
@@ -143,7 +142,7 @@ Every answer is scored across **4 dimensions** (0–10 each):
 
 ---
 
-## 🛠️ Tech Stack
+##  Tech Stack
 
 ### Frontend
 | Technology | Purpose |
@@ -186,7 +185,7 @@ Every answer is scored across **4 dimensions** (0–10 each):
 
 ---
 
-## 📁 Project Structure
+##  Project Structure
 
 ```
 InterviewIQ/
@@ -257,7 +256,7 @@ InterviewIQ/
 
 ---
 
-## ⚡ Getting Started
+##  Getting Started
 
 ### Prerequisites
 
@@ -267,14 +266,14 @@ InterviewIQ/
 - *(Optional)* Google OAuth credentials for social login
 - *(Optional)* Gmail App Password for email invitations
 
-### 1️⃣ Clone the Repository
+### 1️ Clone the Repository
 
 ```bash
 git clone https://github.com/Yash122005/AI_INTERVIEWER.git
 cd AI_INTERVIEWER
 ```
 
-### 2️⃣ Backend Setup
+### 2️ Backend Setup
 
 ```bash
 cd backend
@@ -306,7 +305,7 @@ GMAIL_USER=your_email@gmail.com
 GMAIL_APP_PASSWORD=your_app_password
 ```
 
-### 3️⃣ Frontend Setup
+### 3️ Frontend Setup
 
 ```bash
 cd ../frontend
@@ -322,7 +321,7 @@ VITE_SOCKET_URL=http://localhost:5001
 VITE_GOOGLE_CLIENT_ID=your_google_client_id_here
 ```
 
-### 4️⃣ Run the Application
+### 4️ Run the Application
 
 **Terminal 1** — Start backend:
 ```bash
@@ -340,52 +339,29 @@ Open **http://localhost:5173** in your browser 🚀
 
 ---
 
-## 🔄 How It Works
+##  How It Works
 
 ```mermaid
 flowchart TD
-    A[🧑‍💼 Recruiter] -->|Creates Session| B[Configure Job Title, Skills, Rounds]
+    A[🧑 Recruiter] -->|Creates Session| B[Configure Job Title, Skills, Rounds]
     B --> C[Generate Shareable Link]
-    C -->|Share via Link or Email| D[🧑‍💻 Candidate]
+    C -->|Share via Link or Email| D[ Candidate]
     D -->|Opens Link| E[Proctoring Consent + Camera Setup]
     E --> F[AI Generates First Question]
     F --> G{Answer + Evaluate Loop}
     G -->|AI Evaluates| H[Score 4 Dimensions 0-10]
-    H -->|Socket.IO| I[📊 Live Update to Recruiter]
+    H -->|Socket.IO| I[ Live Update to Recruiter]
     H -->|Adaptive| J[Generate Next Question]
     J --> G
-    G -->|All Rounds Complete| K[🤖 AI Generates Final Report]
+    G -->|All Rounds Complete| K[ AI Generates Final Report]
     K --> L[Overall Score + Recommendation]
-    L --> M[📄 PDF Export Available]
+    L --> M[ PDF Export Available]
     L --> N[Candidate Summary Page]
 ```
 
 ---
 
-## 🚀 Deployment
-
-### Render (Recommended — Full Stack)
-
-This project includes a `render.yaml` blueprint for one-click deployment:
-
-1. Fork this repo to your GitHub account
-2. Go to [Render Dashboard](https://render.com/) → **New** → **Blueprint**
-3. Connect your GitHub repo — Render auto-detects `render.yaml`
-4. Set the required environment variables in the Render dashboard
-5. Deploy! 🎉
-
-### Vercel (Frontend Only)
-
-The `vercel.json` is pre-configured for SPA routing:
-
-```bash
-cd frontend
-npx vercel --prod
-```
-
----
-
-## 🗃️ API Endpoints
+##  API Endpoints
 
 ### Authentication
 | Method | Endpoint | Description |
@@ -420,123 +396,3 @@ npx vercel --prod
 
 ---
 
-## 🗂️ Database Schema
-
-<details>
-<summary><b>User Model</b></summary>
-
-```javascript
-{
-  name: String,
-  email: String (unique),
-  passwordHash: String,
-  googleId: String,
-  role: "recruiter" | "candidate",
-  createdAt: Date
-}
-```
-</details>
-
-<details>
-<summary><b>Session Model</b></summary>
-
-```javascript
-{
-  recruiterId: ObjectId → User,
-  jobTitle: String,
-  skills: [String],
-  experienceLevel: "junior" | "mid" | "senior",
-  rounds: ["intro", "technical", "managerial"],
-  questionsPerRound: Number (1-10),
-  timeLimit: Number (minutes),
-  status: "pending" | "ongoing" | "completed",
-  shareableToken: String (unique),
-  candidateId: ObjectId → User,
-  candidateName: String,
-  candidateProjects: String,
-  proctoring: {
-    tabSwitches: Number,
-    copyPasteAttempts: Number,
-    trustScore: Number (0-100),
-    isSuspicious: Boolean,
-    logs: [{ event: String, timestamp: Date, frameImage: String }]
-  }
-}
-```
-</details>
-
-<details>
-<summary><b>Answer Model</b></summary>
-
-```javascript
-{
-  sessionId: ObjectId → Session,
-  questionText: String,
-  round: "intro" | "technical" | "managerial",
-  answerText: String,
-  scores: {
-    technicalRelevance: Number (0-10),
-    depth: Number (0-10),
-    clarity: Number (0-10),
-    accuracy: Number (0-10)
-  },
-  aiEvaluation: String,
-  timeTaken: Number (seconds)
-}
-```
-</details>
-
-<details>
-<summary><b>Report Model</b></summary>
-
-```javascript
-{
-  sessionId: ObjectId → Session,
-  candidateId: ObjectId → User,
-  candidateName: String,
-  jobTitle: String,
-  overallScore: Number (0-100),
-  roundScores: { intro, technical, managerial },
-  dimensionScores: { technicalRelevance, depth, clarity, accuracy },
-  aiSummary: String,
-  recommendation: "hire" | "hold" | "reject"
-}
-```
-</details>
-
----
-
-## 🤝 Contributing
-
-Contributions are welcome! Please follow these steps:
-
-1. **Fork** the repository
-2. **Create** your feature branch (`git checkout -b feature/amazing-feature`)
-3. **Commit** your changes (`git commit -m 'Add amazing feature'`)
-4. **Push** to the branch (`git push origin feature/amazing-feature`)
-5. **Open** a Pull Request
-
----
-
-## 📜 License
-
-This project is licensed under the **MIT License** — see the [LICENSE](LICENSE) file for details.
-
----
-
-## 👨‍💻 Built By
-
-**Yash Gupta** — *Full-Stack Developer*
-
-[![GitHub](https://img.shields.io/badge/GitHub-Yash122005-181717?style=for-the-badge&logo=github)](https://github.com/Yash122005)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0A66C2?style=for-the-badge&logo=linkedin)](https://linkedin.com/in/your-profile)
-
----
-
-<div align="center">
-
-### ⭐ If you found this project useful, consider giving it a star!
-
-*Built with ❤️ during Hack & Forge 2026*
-
-</div>
