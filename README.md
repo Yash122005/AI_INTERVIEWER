@@ -1,585 +1,542 @@
--# 🚀 PS-2: Web-Based Intelligent Interview Simulation Platform
-## Hack & Forge 2026 — Full Blueprint (MERN Stack)
+<div align="center">
+
+# 🧠 InterviewIQ
+
+### AI-Powered Intelligent Interview Simulation Platform
+
+[![Node.js](https://img.shields.io/badge/Node.js-18%2B-339933?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org/)
+[![React](https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
+[![MongoDB](https://img.shields.io/badge/MongoDB-Atlas-47A248?style=for-the-badge&logo=mongodb&logoColor=white)](https://www.mongodb.com/atlas)
+[![Gemini AI](https://img.shields.io/badge/Google-Gemini_AI-4285F4?style=for-the-badge&logo=google&logoColor=white)](https://ai.google.dev/)
+[![Socket.IO](https://img.shields.io/badge/Socket.IO-Realtime-010101?style=for-the-badge&logo=socket.io&logoColor=white)](https://socket.io/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)](LICENSE)
+
+**InterviewIQ** revolutionizes the recruitment process by enabling recruiters to create structured, AI-driven interview sessions. Candidates are evaluated in real-time across multiple dimensions — with adaptive questioning, live proctoring, and intelligent scoring — all powered by Google Gemini AI.
+
+[🚀 Live Demo](#-deployment) · [📖 Documentation](#-project-overview) · [🐛 Report Bug](../../issues) · [💡 Request Feature](../../issues)
+
+</div>
 
 ---
 
-## 🧩 Core Feature List
+## 📖 Project Overview
 
-### 🔐 1. Authentication & User Management
-- User registration & login (JWT-based auth)
-- Two roles: **Recruiter** (creates interview sessions) and **Candidate** (takes interview)
-- Profile setup: name, target role, experience level, tech stack
+**InterviewIQ** is a full-stack web application built during **Hack & Forge 2026** that simulates enterprise-grade interview experiences using AI. It bridges the gap between recruiters and candidates by automating the entire interview lifecycle — from creating role-specific sessions to generating comprehensive hiring reports.
 
----
+### 🎯 Problem It Solves
 
-### 📋 2. Job Role & Interview Configuration (Recruiter Side)
-- Create an "Interview Session" with:
-  - Job Title (e.g., Backend Engineer, Data Scientist)
-  - Required Skills / Tech Stack tags
-  - Experience Level (Junior / Mid / Senior)
-  - Interview Rounds to simulate: Intro → Technical → Managerial
-  - Time limit per session (e.g., 30 min)
-- Generate a shareable **Interview Link** for candidates
+| Challenge | How InterviewIQ Addresses It |
+|---|---|
+| **Time-consuming screening** | AI conducts structured interviews 24/7, freeing recruiter time |
+| **Inconsistent evaluations** | Standardized scoring across 4 dimensions ensures objectivity |
+| **Candidate cheating** | Built-in AI proctoring with face detection, tab monitoring & trust scoring |
+| **Lack of depth** | Adaptive questioning adjusts difficulty based on candidate performance |
+| **Delayed feedback** | Real-time score updates via WebSocket; instant PDF reports |
 
 ---
 
-### 🎙️ 3. AI Interview Engine (Core Feature)
-- **Dynamic Question Generation** via LLM API (Gemini / OpenAI):
-  - Intro round: Personal background, motivation, communication
-  - Technical round: Role-specific, skill-tagged questions with progressive difficulty
-  - Managerial round: Leadership, conflict resolution, situational questions
-- **Adaptive Questioning**: Next question is selected based on:
-  - Candidate's current score
-  - Depth of previous answer
-  - Role and skill tags
-- **Follow-up questions** when answers are shallow or evasive
-- **Context awareness**: AI remembers full conversation history within session
+## ✨ Key Features
 
----
+### 🔐 Authentication & Roles
+- **JWT-based** authentication with secure password hashing (bcrypt)
+- **Google OAuth 2.0** one-click sign-in
+- **Two distinct roles**: Recruiter (creates & manages) and Candidate (takes interviews)
+- **Quick registration** — candidates can join with just their name via a shared link
 
-### 📝 4. Real-Time Response Evaluation Engine
-Each candidate response is evaluated on:
+### 📋 Interview Session Configuration *(Recruiter)*
+- Create sessions with **job title**, **required skills** (multi-tag input), and **experience level**
+- Select interview **rounds**: Introduction → Technical → Managerial
+- Configure **questions per round** (1–10) and **session time limit**
+- Generate a **unique shareable interview link** with one click
+- **Email invitations** — send interview links directly to candidates via Gmail integration
+
+### 🤖 AI Interview Engine *(Core Intelligence)*
+- **Dynamic question generation** powered by Google Gemini AI
+- **Adaptive difficulty** — if a candidate scores high, questions get harder; shallow answers trigger follow-up drill-downs
+- **Context-aware** — AI remembers the full conversation history (last 5 Q&A pairs) for coherent progression
+- **Multi-round structure**: Intro → Technical → Managerial with smooth transitions
+- **Multi-model fallback** — automatically tries multiple Gemini models if one is unavailable
+
+### 📝 Real-Time Response Evaluation
+Every answer is scored across **4 dimensions** (0–10 each):
+
 | Dimension | What It Measures |
 |---|---|
-| **Technical Relevance** | Does it match the question's domain? |
-| **Depth & Completeness** | Is it surface-level or detailed? |
-| **Clarity & Communication** | Is it well-structured and readable? |
-| **Accuracy** | Is the answer technically correct? |
-| **Confidence Score** | Aggregated from all rounds |
+| **Technical Relevance** | Does the answer match the question's domain? |
+| **Depth & Completeness** | Surface-level or detailed explanation? |
+| **Clarity & Communication** | Well-structured and readable? |
+| **Accuracy** | Technically and factually correct? |
 
-- Each dimension scored **0–10**
-- Real-time visual feedback after each answer (shown to recruiter, hidden from candidate during session)
+### 🛡️ AI Proctoring & Anti-Cheating
+- **Face detection** via MediaPipe — detects missing face, multiple faces, or looking away
+- **Tab switch monitoring** — logs every window/tab change with penalties
+- **Copy/paste & DevTools disabled** — keyboard shortcuts and right-click blocked
+- **Timing analysis** — suspiciously fast answers are flagged
+- **Trust Score** — starts at 100% and decreases with each violation
+- **Camera & audio monitoring** — continuous live feed during the interview
 
----
-
-### 📊 5. Live Recruiter Dashboard
-- See candidate's ongoing session progress
-- Watch answer history and running scores per dimension
+### 📊 Live Recruiter Dashboard
+- Real-time candidate progress via **Socket.IO** WebSocket updates
+- Watch answer history and running scores as they happen
 - View AI-generated evaluation notes per answer
-- Final suitability score with a **Hire / Hold / Reject** recommendation
-- Export report as PDF
+- Status badges: `Pending` → `Ongoing` → `Completed`
+- Manage all sessions from a centralized dashboard
 
----
+### 📈 Post-Interview Analytics & Reporting
+- **Radar chart** visualization of dimension scores (Recharts)
+- **Overall score** out of 100 with color-coded severity
+- **AI Recommendation**: `HIRE` / `HOLD` / `REJECT` with reasoning
+- **AI-written summary** paragraph for each candidate
+- **Proctoring report** — trust score, tab switches, copy/paste attempts, and event logs
+- **Full interview transcript** — expandable Q&A accordion with per-answer scores
+- **PDF export** — download professional reports via jsPDF
 
-### 🖥️ 6. Candidate Interview Interface
-- Clean, distraction-free chat-style interview UI
-- Timer per question (configurable)
-- Progress bar showing round (Intro → Technical → Managerial)
-- Text-based answer input (with optional voice input via Web Speech API)
-- Session summary shown after completion
-
----
-
-### 📈 7. Post-Interview Analytics
-- Individual candidate performance radar chart (per dimension)
-- Round-wise score breakdown
-- Comparison across multiple candidates for the same role
-- AI-written summary paragraph per candidate
-
----
-
-### 🔔 8. Notifications & Session Management
-- Email/in-app notification when candidate completes interview
-- Recruiter can view all sessions and their statuses
-- Candidate gets a shareable result link after session
+### 🎙️ Accessibility Features
+- **Voice input** — speak your answers using Web Speech API
+- **Text-to-Speech** — AI questions are read aloud to the candidate
+- **Mobile responsive** design across all pages
 
 ---
 
 ## 🏗️ System Architecture
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                        FRONTEND (React)                     │
-│  ┌────────────┐  ┌──────────────┐  ┌─────────────────────┐ │
-│  │ Auth Pages │  │ Interview UI │  │ Recruiter Dashboard │ │
-│  └────────────┘  └──────────────┘  └─────────────────────┘ │
-└────────────────────────┬────────────────────────────────────┘
-                         │ REST API + Socket.IO
-┌────────────────────────▼────────────────────────────────────┐
-│                      BACKEND (Node + Express)               │
-│  ┌──────────────┐  ┌────────────────┐  ┌─────────────────┐ │
-│  │ Auth Service │  │ Session Service│  │  AI Service     │ │
-│  │  (JWT)       │  │ (Interview mgmt│  │ (LLM API calls) │ │
-│  └──────────────┘  └────────────────┘  └─────────────────┘ │
-│  ┌──────────────┐  ┌────────────────┐                       │
-│  │ Score Engine │  │ Socket Manager │                       │
-│  │              │  │ (Real-time)    │                       │
-│  └──────────────┘  └────────────────┘                       │
-└────────────────────────┬────────────────────────────────────┘
-                         │
-          ┌──────────────┴──────────────┐
-          │         MongoDB             │
-          │  Users | Sessions | Answers │
-          │  Scores | Reports           │
-          └─────────────────────────────┘
-                         │
-              ┌──────────┴──────────┐
-              │   Gemini / OpenAI   │
-              │      LLM API        │
-              └─────────────────────┘
+┌──────────────────────────────────────────────────────────────────┐
+│                     FRONTEND (React 19 + Vite 8)                 │
+│  ┌────────────┐  ┌──────────────────┐  ┌──────────────────────┐ │
+│  │ Auth Pages │  │ Interview UI     │  │ Recruiter Dashboard  │ │
+│  │ (Login,    │  │ (Chat, Timer,    │  │ (Sessions, Reports,  │ │
+│  │  Register, │  │  Proctoring,     │  │  Live Updates,       │ │
+│  │  Google    │  │  Voice I/O)      │  │  PDF Export)         │ │
+│  │  OAuth)    │  │                  │  │                      │ │
+│  └────────────┘  └──────────────────┘  └──────────────────────┘ │
+└───────────────────────────┬──────────────────────────────────────┘
+                            │ REST API + Socket.IO (WebSocket)
+┌───────────────────────────▼──────────────────────────────────────┐
+│                  BACKEND (Node.js + Express 5)                   │
+│  ┌──────────────┐  ┌──────────────────┐  ┌───────────────────┐  │
+│  │ Auth Service │  │ Session Service  │  │ AI Service        │  │
+│  │ (JWT+Google  │  │ (CRUD, Tokens,   │  │ (Gemini API,      │  │
+│  │  OAuth)      │  │  Proctoring)     │  │  Multi-model      │  │
+│  │              │  │                  │  │  fallback)        │  │
+│  └──────────────┘  └──────────────────┘  └───────────────────┘  │
+│  ┌──────────────┐  ┌──────────────────┐  ┌───────────────────┐  │
+│  │ Score Engine │  │ Socket Manager   │  │ Email Service     │  │
+│  │ (Aggregation │  │ (Real-time push  │  │ (Nodemailer +     │  │
+│  │  + Analytics)│  │  to recruiters)  │  │  Gmail SMTP)      │  │
+│  └──────────────┘  └──────────────────┘  └───────────────────┘  │
+└───────────────────────────┬──────────────────────────────────────┘
+                            │
+              ┌─────────────┴─────────────┐
+              │       MongoDB Atlas       │
+              │  Users │ Sessions │ Ans.  │
+              │  Reports │ Proctoring     │
+              └─────────────┬─────────────┘
+                            │
+                 ┌──────────┴──────────┐
+                 │   Google Gemini AI  │
+                 │   (gemini-flash /   │
+                 │    gemini-pro /     │
+                 │    2.0-flash-lite)  │
+                 └─────────────────────┘
 ```
 
 ---
 
-## 📁 Folder Structure
+## 🛠️ Tech Stack
+
+### Frontend
+| Technology | Purpose |
+|---|---|
+| **React 19** | UI framework with hooks-based architecture |
+| **Vite 8** | Lightning-fast HMR and build tooling |
+| **React Router v7** | Client-side routing with protected routes |
+| **Zustand** | Lightweight state management |
+| **Framer Motion** | Smooth page transitions and micro-animations |
+| **Recharts** | Radar chart for score visualization |
+| **Socket.IO Client** | Real-time WebSocket communication |
+| **MediaPipe (Tasks-Vision)** | Face detection for proctoring |
+| **Web Speech API** | Voice input and text-to-speech |
+| **jsPDF** | Client-side PDF report generation |
+| **Lucide React** | Modern icon library |
+| **React Hot Toast** | Elegant toast notifications |
+
+### Backend
+| Technology | Purpose |
+|---|---|
+| **Node.js 18+** | JavaScript runtime |
+| **Express 5** | Web server framework |
+| **MongoDB + Mongoose 9** | NoSQL database with ODM |
+| **Google Gemini AI** | LLM-powered question generation & evaluation |
+| **Socket.IO** | Real-time bidirectional communication |
+| **JWT + bcryptjs** | Stateless authentication & password hashing |
+| **Google Auth Library** | OAuth 2.0 token verification |
+| **Nodemailer** | Email invitation delivery (Gmail SMTP) |
+| **nanoid** | Unique shareable token generation |
+
+### Design System
+| Token | Value |
+|---|---|
+| Primary Background | `#0A0A1A` (deep dark navy) |
+| Card Background | `rgba(26, 26, 50, 0.8)` with glassmorphism |
+| Accent Primary | `#6C63FF` (electric indigo) |
+| Accent Secondary | `#00D4FF` (cyan) |
+| Font | [Inter](https://fonts.google.com/specimen/Inter) (Google Fonts) |
+| Effects | Glassmorphism, gradient borders, glow animations |
+
+---
+
+## 📁 Project Structure
 
 ```
-project-root/
+InterviewIQ/
 ├── backend/
 │   ├── config/
-│   │   └── db.js                  # MongoDB connection
+│   │   └── db.js                     # MongoDB Atlas connection
 │   ├── controllers/
-│   │   ├── auth.controller.js
-│   │   ├── session.controller.js
-│   │   ├── interview.controller.js
-│   │   └── score.controller.js
+│   │   ├── auth.controller.js        # Register, Login, Google OAuth, Quick-register
+│   │   ├── candidate.controller.js   # Candidate-specific operations
+│   │   ├── interview.controller.js   # Join, Submit Answer, Complete Interview
+│   │   └── session.controller.js     # CRUD sessions, Send email invites
 │   ├── middleware/
-│   │   └── auth.middleware.js     # JWT verification
+│   │   └── auth.middleware.js        # JWT verification middleware
 │   ├── models/
-│   │   ├── User.model.js
-│   │   ├── Session.model.js
-│   │   ├── Answer.model.js
-│   │   └── Report.model.js
+│   │   ├── User.model.js            # User schema (recruiter/candidate)
+│   │   ├── Session.model.js         # Session schema + proctoring logs
+│   │   ├── Answer.model.js          # Individual answer with scores
+│   │   └── Report.model.js          # Final aggregated report
 │   ├── routes/
 │   │   ├── auth.routes.js
-│   │   ├── session.routes.js
-│   │   └── interview.routes.js
+│   │   ├── candidate.routes.js
+│   │   ├── interview.routes.js
+│   │   └── session.routes.js
 │   ├── services/
-│   │   ├── ai.service.js          # LLM API wrapper (question gen + scoring)
-│   │   └── score.service.js       # Scoring aggregation logic
+│   │   ├── ai.service.js            # Gemini API wrapper (multi-model fallback)
+│   │   ├── email.service.js         # Nodemailer integration
+│   │   └── score.service.js         # Score aggregation logic
 │   ├── socket/
-│   │   └── socket.js              # Socket.IO setup (real-time updates)
-│   ├── .env
-│   └── server.js
+│   │   └── socket.js               # Socket.IO setup & room management
+│   ├── .env.example
+│   ├── package.json
+│   └── server.js                    # Express app + Socket.IO + static serving
 │
 ├── frontend/
-│   ├── public/
 │   ├── src/
-│   │   ├── assets/
 │   │   ├── components/
-│   │   │   ├── Navbar.jsx
-│   │   │   ├── ProtectedRoute.jsx
-│   │   │   ├── ScoreRadarChart.jsx
-│   │   │   ├── InterviewChat.jsx
-│   │   │   ├── QuestionCard.jsx
-│   │   │   ├── TimerBar.jsx
-│   │   │   └── RoundProgress.jsx
+│   │   │   ├── Navbar.jsx           # Navigation bar with auth state
+│   │   │   ├── ProtectedRoute.jsx   # Role-based route protection
+│   │   │   ├── RoundProgress.jsx    # Visual round progression indicator
+│   │   │   ├── ScoreRadarChart.jsx  # Recharts radar for dimensions
+│   │   │   └── SendLinkModal.jsx    # Email invitation modal
 │   │   ├── pages/
-│   │   │   ├── LoginPage.jsx
-│   │   │   ├── RegisterPage.jsx
-│   │   │   ├── RecruiterDashboard.jsx
-│   │   │   ├── CreateSessionPage.jsx
-│   │   │   ├── InterviewPage.jsx       # Candidate interview UI
-│   │   │   ├── SessionReport.jsx
-│   │   │   └── CandidateSummary.jsx
-│   │   ├── context/
-│   │   │   └── AuthContext.jsx
-│   │   ├── hooks/
-│   │   │   └── useSocket.js
-│   │   ├── lib/
-│   │   │   └── axios.js
-│   │   ├── store/
-│   │   │   └── useSessionStore.js    # Zustand store
-│   │   ├── App.jsx
-│   │   ├── main.jsx
-│   │   └── index.css
+│   │   │   ├── LoginPage.jsx        # Login with email + Google OAuth
+│   │   │   ├── RegisterPage.jsx     # Register with role selection
+│   │   │   ├── RecruiterDashboard.jsx  # Session management table
+│   │   │   ├── CreateSessionPage.jsx   # Multi-step session creator
+│   │   │   ├── InterviewPage.jsx    # Full interview UI + proctoring (888 lines)
+│   │   │   ├── CandidateDashboard.jsx  # Candidate's past interviews
+│   │   │   ├── CandidateSummary.jsx    # Post-interview score summary
+│   │   │   ├── CandidatesPage.jsx      # Recruiter view of all candidates
+│   │   │   └── SessionReport.jsx       # Detailed report + PDF export
+│   │   ├── context/AuthContext.jsx  # React Context for auth state
+│   │   ├── hooks/useSocket.js       # Socket.IO custom hook
+│   │   ├── lib/axios.js             # Axios instance with JWT interceptor
+│   │   ├── store/useSessionStore.js # Zustand store
+│   │   ├── App.jsx                  # Route definitions
+│   │   ├── main.jsx                 # Entry point
+│   │   └── index.css                # Design system (CSS variables, glassmorphism)
+│   ├── .env.example
 │   ├── package.json
 │   └── vite.config.js
 │
+├── build.sh                         # Production build script
+├── render.yaml                      # Render.com blueprint for one-click deploy
+├── vercel.json                      # Vercel SPA rewrite config
 └── README.md
 ```
 
 ---
 
-## 🛠️ Tech Stack Decisions
+## ⚡ Getting Started
 
-| Layer | Technology | Reason |
-|---|---|---|
-| Frontend | React + Vite | Fast HMR, modern ecosystem |
-| UI Library | ShadCN/UI + TailwindCSS | Beautiful, accessible components fast |
-| State Management | Zustand | Lightweight, perfect for session state |
-| Charts | Recharts | Radar chart for score visualization |
-| Backend | Node.js + Express | MERN standard |
-| Realtime | Socket.IO | Live score updates to recruiter |
-| Auth | JWT + bcrypt | Secure, stateless |
-| Database | MongoDB + Mongoose | Flexible schema for dynamic Q&A |
-| AI | Google Gemini API (gemini-1.5-flash) | Free tier, fast, powerful |
-| PDF Export | jsPDF | Client-side PDF generation |
+### Prerequisites
 
----
+- **Node.js** v18 or higher
+- **MongoDB Atlas** account (free tier works)
+- **Google Gemini API Key** — [Get one here](https://aistudio.google.com/app/apikey)
+- *(Optional)* Google OAuth credentials for social login
+- *(Optional)* Gmail App Password for email invitations
 
-## 🗂️ MongoDB Schema Design
+### 1️⃣ Clone the Repository
 
-### User
-```js
-{
-  _id, name, email, passwordHash,
-  role: "recruiter" | "candidate",
-  createdAt
-}
+```bash
+git clone https://github.com/Yash122005/AI_INTERVIEWER.git
+cd AI_INTERVIEWER
 ```
 
-### Session
-```js
-{
-  _id, recruiterId, jobTitle, skills[],
-  experienceLevel, rounds[], timeLimit,
-  status: "pending" | "ongoing" | "completed",
-  shareableLink, candidateId, createdAt
-}
+### 2️⃣ Backend Setup
+
+```bash
+cd backend
+npm install
+cp .env.example .env
 ```
 
-### Answer
-```js
-{
-  _id, sessionId, questionId, questionText,
-  round: "intro" | "technical" | "managerial",
-  answerText, scores: {
-    technicalRelevance, depth,
-    clarity, accuracy
-  },
-  aiEvaluation: String,   // AI explanation
-  timestamp
-}
-```
+Edit `backend/.env` with your credentials:
 
-### Report
-```js
-{
-  _id, sessionId, candidateId,
-  overallScore, roundScores: {},
-  dimensionScores: {},
-  aiSummary: String,
-  recommendation: "hire" | "hold" | "reject",
-  generatedAt
-}
-```
-
----
-
-## 🤖 AI Service Design (Key Intelligence)
-
-### Question Generation Prompt Template:
-```
-You are an expert enterprise interviewer.
-Role: {jobTitle}
-Experience Level: {level}
-Skills Required: {skills}
-Current Round: {round}
-Interview History: {last 5 Q&A pairs}
-Candidate Score So Far: {score}
-
-Generate ONE interview question. 
-- If candidate is scoring high, increase difficulty.
-- If answer was shallow, ask a follow-up drill-down.
-- Keep it concise and professional.
-Return JSON: { "question": "...", "type": "technical|behavioral|situational" }
-```
-
-### Response Evaluation Prompt Template:
-```
-You are evaluating a candidate's interview response.
-Question: {question}
-Candidate Answer: {answer}
-Job Role: {jobTitle}, Skills: {skills}
-
-Score each dimension from 0-10:
-- technicalRelevance: Does it address the domain?
-- depth: Is it detailed or surface-level?
-- clarity: Is it structured and clear?
-- accuracy: Is it factually correct?
-
-Also write a 2-sentence evaluation note.
-Return JSON: { scores: {...}, evaluation: "..." }
-```
-
----
-
-## ⏱️ 20-Hour Implementation Timeline
-
-| Time | Task |
-|---|---|
-| **0–1 hr** | Project setup: MERN scaffold, Vite, env config, MongoDB Atlas |
-| **1–3 hr** | Auth system: Register, Login, JWT, protected routes |
-| **3–5 hr** | Session creation (Recruiter): form, DB model, shareable link |
-| **5–8 hr** | AI Service: Gemini API integration, question gen + scoring prompts |
-| **8–12 hr** | Interview Page (Candidate): chat UI, round progression, timer |
-| **12–15 hr** | Score Engine + real-time Socket.IO updates to recruiter |
-| **15–17 hr** | Recruiter Dashboard: live view, radar chart, answer history |
-| **17–18 hr** | Report Page: PDF export, AI summary, hire recommendation |
-| **18–19 hr** | UI Polish: animations, dark mode, mobile responsiveness |
-| **19–20 hr** | Demo prep, README, deployment to Vercel/Render |
-
----
-
----
-
-# 🤖 READY-TO-USE CODING PROMPT
-
-> Copy and paste this entire prompt to instruct the AI to build the project:
-
----
-
-```
-Build a full-stack MERN (MongoDB, Express, React + Vite, Node.js) web application 
-called "InterviewIQ" — a Web-Based Intelligent Interview Simulation Platform for 
-enterprise recruitment.
-
-## PROJECT OVERVIEW
-An AI-powered platform where recruiters create interview sessions for specific job roles, 
-and candidates take structured, adaptive interviews simulated by an LLM. The system 
-evaluates responses in real-time and generates a detailed hiring report.
-
----
-
-## TECH STACK
-- Frontend: React (Vite), TailwindCSS, ShadCN/UI, Zustand, Recharts, Socket.IO-client
-- Backend: Node.js, Express, Socket.IO, Mongoose
-- Database: MongoDB (use Mongoose ODM)
-- AI: Google Gemini API (model: gemini-1.5-flash) via @google/generative-ai npm package
-- Auth: JWT + bcryptjs
-- PDF: jsPDF (client-side)
-- HTTP Client: Axios
-
----
-
-## FOLDER STRUCTURE
-Create this exact folder structure:
-project-root/
-├── backend/
-│   ├── config/db.js
-│   ├── controllers/ (auth, session, interview, score)
-│   ├── middleware/auth.middleware.js
-│   ├── models/ (User, Session, Answer, Report)
-│   ├── routes/ (auth, session, interview)
-│   ├── services/ (ai.service.js, score.service.js)
-│   ├── socket/socket.js
-│   ├── .env
-│   └── server.js
-├── frontend/
-│   ├── src/
-│   │   ├── components/ (Navbar, ScoreRadarChart, InterviewChat, TimerBar, RoundProgress)
-│   │   ├── pages/ (LoginPage, RegisterPage, RecruiterDashboard, CreateSessionPage, 
-│   │   │           InterviewPage, SessionReport, CandidateSummary)
-│   │   ├── context/AuthContext.jsx
-│   │   ├── hooks/useSocket.js
-│   │   ├── lib/axios.js
-│   │   ├── store/useSessionStore.js
-│   │   ├── App.jsx
-│   │   └── index.css
-
----
-
-## BACKEND REQUIREMENTS
-
-### server.js
-- Express app with CORS, JSON middleware
-- Connect to MongoDB
-- Mount all routes under /api
-- Integrate Socket.IO
-- Listen on PORT from .env
-
-### MongoDB Models
-
-User model:
-{ name, email, passwordHash, role: enum["recruiter","candidate"], createdAt }
-
-Session model:
-{ recruiterId (ref User), jobTitle, skills (array of strings), 
-  experienceLevel (enum: junior/mid/senior), 
-  rounds (array: ["intro","technical","managerial"]),
-  timeLimit (number, minutes), 
-  status (enum: pending/ongoing/completed),
-  shareableToken (unique string for candidate link),
-  candidateId (ref User, optional),
-  createdAt }
-
-Answer model:
-{ sessionId (ref Session), questionText, round (intro/technical/managerial),
-  answerText, 
-  scores: { technicalRelevance, depth, clarity, accuracy } (all 0-10),
-  aiEvaluation (string), 
-  timestamp }
-
-Report model:
-{ sessionId, candidateId, overallScore (0-100), 
-  roundScores: { intro, technical, managerial },
-  dimensionScores: { technicalRelevance, depth, clarity, accuracy },
-  aiSummary (string), 
-  recommendation (enum: hire/hold/reject),
-  generatedAt }
-
-### Auth Routes (/api/auth)
-POST /register - hash password with bcrypt, save user, return JWT
-POST /login - verify credentials, return JWT
-GET /me - return current user from JWT (protected)
-
-### Session Routes (/api/sessions) [Recruiter only]
-POST / - create session, generate unique shareableToken (nanoid)
-GET / - get all recruiter's sessions
-GET /:id - get single session with answers and report
-
-### Interview Routes (/api/interview)
-GET /join/:token - candidate joins session by token (sets candidateId, status=ongoing)
-POST /answer - candidate submits an answer:
-  1. Save answer to DB
-  2. Call AI service to evaluate the answer → save scores + evaluation
-  3. Emit real-time score update via Socket.IO to recruiter room
-  4. Call AI service to generate next question
-  5. Return: { nextQuestion, scores, evaluation, isComplete }
-POST /complete/:sessionId - finalize session:
-  1. Aggregate all answer scores
-  2. Call AI to generate overall summary and recommendation
-  3. Save Report to DB
-  4. Return full report
-
-### AI Service (services/ai.service.js)
-Use @google/generative-ai with gemini-1.5-flash model.
-
-Function generateQuestion(jobTitle, skills, level, round, history, avgScore):
-  Sends prompt to Gemini asking for ONE interview question.
-  Prompt enforces: if avgScore > 7, increase difficulty; if last answer was short, ask follow-up.
-  Returns JSON: { question: string, type: string }
-
-Function evaluateAnswer(question, answer, jobTitle, skills):
-  Sends prompt to Gemini to evaluate the answer.
-  Returns JSON: { scores: { technicalRelevance, depth, clarity, accuracy }, evaluation: string }
-
-Function generateReport(sessionData, allAnswers):
-  Sends full session context to Gemini.
-  Returns JSON: { aiSummary: string, recommendation: "hire"|"hold"|"reject" }
-
-All Gemini calls must use response_mime_type: "application/json" to get structured output.
-Handle API errors gracefully with try/catch.
-
-### Socket.IO (socket/socket.js)
-- On connection, candidate joins room: "session-{sessionId}"
-- Recruiter joins room: "recruiter-{sessionId}"
-- Emit event "scoreUpdate" to recruiter room when candidate submits answer
-  Payload: { questionText, answerText, scores, evaluation, running averages }
-
----
-
-## FRONTEND REQUIREMENTS
-
-### Design System
-- Dark theme with primary color: #6C63FF (electric indigo)
-- Background: #0F0F1A (deep dark navy)
-- Card background: #1A1A2E
-- Accent: #00D4FF (cyan)
-- Text: #E2E8F0
-- Font: Inter (Google Fonts)
-- All cards should have glassmorphism effect: backdrop-filter: blur(10px), subtle border
-- Smooth page transitions using framer-motion
-- All interactive elements must have hover animations
-
-### Pages
-
-#### LoginPage & RegisterPage
-- Centered glassmorphism card
-- Role selection toggle (Recruiter / Candidate) on Register
-- Animated gradient background
-- JWT stored in localStorage, user in AuthContext
-
-#### RecruiterDashboard (/dashboard)
-- Header with user info and logout
-- "Create New Interview" button
-- Table of all sessions: Job Title | Skills | Status | Candidate | Actions
-- Click session → SessionReport page
-- Each row shows status badge (pending=yellow, ongoing=blue, completed=green)
-
-#### CreateSessionPage (/create-session)
-- Multi-step form (3 steps with animated transitions):
-  Step 1: Job title, experience level
-  Step 2: Skills multi-tag input (type and press Enter to add tags)
-  Step 3: Select rounds to include, set time limit
-- On submit: POST to backend, receive shareableToken
-- Display shareable link: "Copy Interview Link" button
-- Link format: /interview/{token}
-
-#### InterviewPage (/interview/:token) [Candidate view]
-- If not logged in → show quick "Enter your name" modal → auto-register as candidate
-- Full-screen dark chat interface
-- Top bar: Job title | Current Round pill | Timer countdown
-- RoundProgress component: shows Intro → Technical → Managerial with active highlight
-- Chat-style messages: AI question on left, candidate response on right
-- Text area at bottom with "Submit Answer" button
-- On submit: disable textarea, show typing indicator, then show next question
-- After final question: show "Interview Complete" screen → redirect to CandidateSummary
-
-#### CandidateSummary (/summary/:sessionId)
-- Show candidate's overall score (large animated number)
-- Radar chart with 4 dimensions
-- Round-by-round score breakdown
-- List of all questions and answers with per-answer score pills
-- Message: "Your recruiter will review your results shortly"
-
-#### SessionReport (/report/:sessionId) [Recruiter view]
-- Candidate info header
-- Large overall score with color coding (>70=green, 50-70=yellow, <50=red)
-- Radar chart for dimension scores
-- Hire/Hold/Reject recommendation badge (colored)
-- AI Summary paragraph in a highlighted blockquote card
-- Accordion of all Q&A pairs with scores
-- "Download PDF Report" button using jsPDF
-- Real-time section: if session is ongoing, show live score updates via Socket.IO
-
-### State Management (Zustand - store/useSessionStore.js)
-Store: sessionId, questions[], answers[], currentRound, scores{}, isComplete
-
-### Axios Config (lib/axios.js)
-- Base URL from env variable
-- Request interceptor: attach JWT from localStorage to Authorization header
-
-### Routing (App.jsx)
-- React Router v6
-- Protected routes for /dashboard, /create-session, /report/:id
-- Public routes: /login, /register, /interview/:token, /summary/:id
-
----
-
-## ENVIRONMENT VARIABLES
-
-Backend .env:
+```env
 PORT=5001
-MONGO_URI=your_mongodb_atlas_uri
-JWT_SECRET=your_jwt_secret
-GEMINI_API_KEY=your_gemini_api_key
+NODE_ENV=development
 
-Frontend .env:
+# MongoDB Atlas connection string
+MONGO_URI=mongodb+srv://<username>:<password>@<cluster>.mongodb.net/?appName=InterviewIQ
+
+# JWT secret (use a long random string)
+JWT_SECRET=your_jwt_secret_here
+
+# Google Gemini API key
+GEMINI_API_KEY=your_gemini_api_key_here
+
+# (Optional) Google OAuth
+GOOGLE_CLIENT_ID=your_google_client_id
+GOOGLE_CLIENT_SECRET=your_google_client_secret
+
+# (Optional) Gmail for sending invitations
+GMAIL_USER=your_email@gmail.com
+GMAIL_APP_PASSWORD=your_app_password
+```
+
+### 3️⃣ Frontend Setup
+
+```bash
+cd ../frontend
+npm install
+cp .env.example .env
+```
+
+Edit `frontend/.env`:
+
+```env
 VITE_API_URL=http://localhost:5001/api
 VITE_SOCKET_URL=http://localhost:5001
-
----
-
-## PACKAGE.JSON REQUIREMENTS
-
-Backend packages:
-express, mongoose, cors, dotenv, bcryptjs, jsonwebtoken, 
-socket.io, @google/generative-ai, nanoid, nodemon (dev)
-
-Frontend packages:
-react, react-dom, react-router-dom, axios, zustand, recharts,
-socket.io-client, framer-motion, jspdf, lucide-react,
-tailwindcss, @tailwindcss/forms, shadcn/ui components
-
----
-
-## IMPORTANT IMPLEMENTATION NOTES
-1. All Gemini API calls must properly parse JSON responses — wrap in try/catch and 
-   fall back to default question if parsing fails.
-2. Maintain full conversation history in session (last 10 Q&A pairs) and send to 
-   Gemini for context-aware questioning.
-3. The InterviewPage must work WITHOUT recruiter being present — fully async.
-4. Use nanoid for generating unique shareableTokens for sessions.
-5. The RecruiterDashboard must poll or use Socket.IO to show live status changes.
-6. Implement proper loading states and error toasts on all API calls.
-7. Mobile responsive design is required.
-8. PDF report must include: candidate name, job title, overall score, 
-   dimension scores table, recommendation, and AI summary.
-
-Start by creating the backend server.js and all models, then implement the AI service, 
-then controllers/routes, then the frontend pages in order:
-LoginPage → RegisterPage → RecruiterDashboard → CreateSessionPage → 
-InterviewPage → CandidateSummary → SessionReport
+VITE_GOOGLE_CLIENT_ID=your_google_client_id_here
 ```
+
+### 4️⃣ Run the Application
+
+**Terminal 1** — Start backend:
+```bash
+cd backend
+npm run dev
+```
+
+**Terminal 2** — Start frontend:
+```bash
+cd frontend
+npm run dev
+```
+
+Open **http://localhost:5173** in your browser 🚀
+
+---
+
+## 🔄 How It Works
+
+```mermaid
+flowchart TD
+    A[🧑‍💼 Recruiter] -->|Creates Session| B[Configure Job Title, Skills, Rounds]
+    B --> C[Generate Shareable Link]
+    C -->|Share via Link or Email| D[🧑‍💻 Candidate]
+    D -->|Opens Link| E[Proctoring Consent + Camera Setup]
+    E --> F[AI Generates First Question]
+    F --> G{Answer + Evaluate Loop}
+    G -->|AI Evaluates| H[Score 4 Dimensions 0-10]
+    H -->|Socket.IO| I[📊 Live Update to Recruiter]
+    H -->|Adaptive| J[Generate Next Question]
+    J --> G
+    G -->|All Rounds Complete| K[🤖 AI Generates Final Report]
+    K --> L[Overall Score + Recommendation]
+    L --> M[📄 PDF Export Available]
+    L --> N[Candidate Summary Page]
+```
+
+---
+
+## 🚀 Deployment
+
+### Render (Recommended — Full Stack)
+
+This project includes a `render.yaml` blueprint for one-click deployment:
+
+1. Fork this repo to your GitHub account
+2. Go to [Render Dashboard](https://render.com/) → **New** → **Blueprint**
+3. Connect your GitHub repo — Render auto-detects `render.yaml`
+4. Set the required environment variables in the Render dashboard
+5. Deploy! 🎉
+
+### Vercel (Frontend Only)
+
+The `vercel.json` is pre-configured for SPA routing:
+
+```bash
+cd frontend
+npx vercel --prod
+```
+
+---
+
+## 🗃️ API Endpoints
+
+### Authentication
+| Method | Endpoint | Description |
+|---|---|---|
+| `POST` | `/api/auth/register` | Register with email, password, role |
+| `POST` | `/api/auth/login` | Login with email & password |
+| `POST` | `/api/auth/google` | Google OAuth login |
+| `POST` | `/api/auth/quick-register` | Quick name-only registration (candidates) |
+| `GET` | `/api/auth/me` | Get current user profile |
+
+### Sessions *(Recruiter)*
+| Method | Endpoint | Description |
+|---|---|---|
+| `POST` | `/api/sessions` | Create new interview session |
+| `GET` | `/api/sessions` | Get all recruiter's sessions |
+| `GET` | `/api/sessions/:id` | Get session with answers & report |
+| `GET` | `/api/sessions/token/:token` | Get session info by shareable token |
+| `POST` | `/api/sessions/send-link` | Email interview link to candidate |
+| `GET` | `/api/sessions/candidates` | List all registered candidates |
+
+### Interview *(Candidate)*
+| Method | Endpoint | Description |
+|---|---|---|
+| `POST` | `/api/interview/join/:token` | Join session via shareable token |
+| `POST` | `/api/interview/answer` | Submit answer → Get AI evaluation + next question |
+| `POST` | `/api/interview/complete/:id` | Finalize session → Generate report |
+
+### Health
+| Method | Endpoint | Description |
+|---|---|---|
+| `GET` | `/api/health` | Server health check |
+
+---
+
+## 🗂️ Database Schema
+
+<details>
+<summary><b>User Model</b></summary>
+
+```javascript
+{
+  name: String,
+  email: String (unique),
+  passwordHash: String,
+  googleId: String,
+  role: "recruiter" | "candidate",
+  createdAt: Date
+}
+```
+</details>
+
+<details>
+<summary><b>Session Model</b></summary>
+
+```javascript
+{
+  recruiterId: ObjectId → User,
+  jobTitle: String,
+  skills: [String],
+  experienceLevel: "junior" | "mid" | "senior",
+  rounds: ["intro", "technical", "managerial"],
+  questionsPerRound: Number (1-10),
+  timeLimit: Number (minutes),
+  status: "pending" | "ongoing" | "completed",
+  shareableToken: String (unique),
+  candidateId: ObjectId → User,
+  candidateName: String,
+  candidateProjects: String,
+  proctoring: {
+    tabSwitches: Number,
+    copyPasteAttempts: Number,
+    trustScore: Number (0-100),
+    isSuspicious: Boolean,
+    logs: [{ event: String, timestamp: Date, frameImage: String }]
+  }
+}
+```
+</details>
+
+<details>
+<summary><b>Answer Model</b></summary>
+
+```javascript
+{
+  sessionId: ObjectId → Session,
+  questionText: String,
+  round: "intro" | "technical" | "managerial",
+  answerText: String,
+  scores: {
+    technicalRelevance: Number (0-10),
+    depth: Number (0-10),
+    clarity: Number (0-10),
+    accuracy: Number (0-10)
+  },
+  aiEvaluation: String,
+  timeTaken: Number (seconds)
+}
+```
+</details>
+
+<details>
+<summary><b>Report Model</b></summary>
+
+```javascript
+{
+  sessionId: ObjectId → Session,
+  candidateId: ObjectId → User,
+  candidateName: String,
+  jobTitle: String,
+  overallScore: Number (0-100),
+  roundScores: { intro, technical, managerial },
+  dimensionScores: { technicalRelevance, depth, clarity, accuracy },
+  aiSummary: String,
+  recommendation: "hire" | "hold" | "reject"
+}
+```
+</details>
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! Please follow these steps:
+
+1. **Fork** the repository
+2. **Create** your feature branch (`git checkout -b feature/amazing-feature`)
+3. **Commit** your changes (`git commit -m 'Add amazing feature'`)
+4. **Push** to the branch (`git push origin feature/amazing-feature`)
+5. **Open** a Pull Request
+
+---
+
+## 📜 License
+
+This project is licensed under the **MIT License** — see the [LICENSE](LICENSE) file for details.
+
+---
+
+## 👨‍💻 Built By
+
+**Yash Gupta** — *Full-Stack Developer*
+
+[![GitHub](https://img.shields.io/badge/GitHub-Yash122005-181717?style=for-the-badge&logo=github)](https://github.com/Yash122005)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0A66C2?style=for-the-badge&logo=linkedin)](https://linkedin.com/in/your-profile)
+
+---
+
+<div align="center">
+
+### ⭐ If you found this project useful, consider giving it a star!
+
+*Built with ❤️ during Hack & Forge 2026*
+
+</div>
