@@ -1,7 +1,18 @@
 import { useEffect, useRef, useCallback } from "react";
 import { io } from "socket.io-client";
 
-const SOCKET_URL = import.meta.env.VITE_SOCKET_URL || "";
+const getSocketURL = () => {
+  const configured = import.meta.env.VITE_SOCKET_URL?.trim();
+  if (configured) return configured;
+
+  if (typeof window !== "undefined") {
+    return window.location.origin;
+  }
+
+  return "";
+};
+
+const SOCKET_URL = getSocketURL();
 
 export default function useSocket() {
   const socketRef = useRef(null);
