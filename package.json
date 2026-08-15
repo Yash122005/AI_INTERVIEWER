@@ -1,12 +1,24 @@
 {
   "name": "ai-interviewer-root",
   "version": "1.0.0",
+  "type": "module",
   "engines": {
     "node": ">=18.0.0"
   },
   "scripts": {
-    "preinstall": "cd backend && npm install",
     "build": "cd frontend && npm install && npm run build",
     "start": "cd backend && node server.js"
+  },
+  "dependencies": {
+    "@google/generative-ai": "^0.24.1",
+    "bcryptjs": "^3.0.3",
+    "cors": "^2.8.6",
+    "dotenv": "^17.3.1",
+    "express": "^5.2.1",
+    "google-auth-library": "^10.6.1",
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^9.3.0",
+    "nanoid": "^5.1.6",
+    "nodemailer": "^8.0.2"
   }
 }
