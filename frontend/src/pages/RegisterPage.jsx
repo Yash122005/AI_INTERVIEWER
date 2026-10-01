@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { UserPlus, Mail, Lock, User, Zap } from "lucide-react";
+import { UserPlus, Mail, Lock, User } from "lucide-react";
 import toast from "react-hot-toast";
 import { motion } from "framer-motion";
 import { GoogleLogin } from "@react-oauth/google";
@@ -44,47 +44,78 @@ export default function RegisterPage() {
   };
 
   return (
-    <div style={{
-      minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center",
-      padding: "24px",
-      background: "radial-gradient(ellipse 80% 60% at 50% 40%, rgba(108, 99, 255, 0.08) 0%, transparent 60%)",
-    }}>
+    <div
+      style={{
+        minHeight: "100vh",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        padding: "24px",
+        backgroundColor: "var(--background)",
+      }}
+    >
       <motion.div
-        initial={{ opacity: 0, y: 30 }}
+        initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, ease: "easeOut" }}
-        className="glass-card"
-        style={{ width: "100%", maxWidth: 440, padding: "40px" }}
+        transition={{ duration: 0.4, ease: "easeOut" }}
+        className="card"
+        style={{ width: "100%", maxWidth: 440, padding: "36px 32px" }}
       >
-        <div style={{ textAlign: "center", marginBottom: 32 }}>
-          <div style={{
-            width: 56, height: 56, borderRadius: 16, margin: "0 auto 16px",
-            background: "var(--accent-gradient)",
-            display: "flex", alignItems: "center", justifyContent: "center",
-          }}>
-            <Zap size={28} color="#fff" />
-          </div>
-          <h1 style={{ fontSize: 26, fontWeight: 800, background: "var(--accent-gradient)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+        {/* Official Logo */}
+        <div style={{ textAlign: "center", marginBottom: 24 }}>
+          <Link to="/" style={{ display: "inline-block", marginBottom: 16 }}>
+            <img
+              src="/logo.png"
+              alt="InterviewIQ Logo"
+              style={{
+                height: 42,
+                width: "auto",
+                objectFit: "contain",
+                margin: "0 auto",
+                display: "block",
+              }}
+            />
+          </Link>
+          <h1 style={{ fontSize: 22, fontWeight: 700, color: "var(--text-primary)", letterSpacing: "-0.02em" }}>
             Create Account
           </h1>
-          <p style={{ color: "var(--text-secondary)", marginTop: 8, fontSize: 14 }}>
-            Join InterviewIQ as a Recruiter or Candidate
+          <p style={{ color: "var(--text-secondary)", marginTop: 6, fontSize: 13 }}>
+            Join InterviewIQ to practice or recruit
           </p>
         </div>
 
         {/* Role Toggle */}
-        <div style={{
-          display: "flex", borderRadius: 12, overflow: "hidden",
-          border: "1px solid var(--border-color)", marginBottom: 24,
-        }}>
+        <div
+          style={{
+            display: "flex",
+            borderRadius: "var(--radius)",
+            backgroundColor: "var(--background)",
+            border: "1px solid var(--border)",
+            padding: 3,
+            marginBottom: 20,
+          }}
+        >
           {["recruiter", "candidate"].map((r) => (
-            <button key={r} onClick={() => setRole(r)} type="button" style={{
-              flex: 1, padding: "12px", border: "none", cursor: "pointer",
-              fontFamily: "'Inter'", fontWeight: 600, fontSize: 14,
-              background: role === r ? "var(--accent-primary)" : "transparent",
-              color: role === r ? "#fff" : "var(--text-secondary)",
-              transition: "all 0.3s ease", textTransform: "capitalize",
-            }}>
+            <button
+              key={r}
+              onClick={() => setRole(r)}
+              type="button"
+              style={{
+                flex: 1,
+                padding: "8px 12px",
+                border: "none",
+                borderRadius: "var(--radius-sm)",
+                cursor: "pointer",
+                fontFamily: "var(--font-sans)",
+                fontWeight: 600,
+                fontSize: 13,
+                backgroundColor: role === r ? "var(--accent)" : "transparent",
+                color: role === r ? "#0C1519" : "var(--text-secondary)",
+                transition: "var(--transition)",
+                textTransform: "capitalize",
+              }}
+            >
               {r === "recruiter" ? "👔 Recruiter" : "🎓 Candidate"}
             </button>
           ))}
@@ -94,39 +125,99 @@ export default function RegisterPage() {
           <div className="input-group">
             <label>Full Name</label>
             <div style={{ position: "relative" }}>
-              <User size={18} style={{ position: "absolute", left: 14, top: 13, color: "var(--text-muted)" }} />
-              <input className="input-field" type="text" placeholder="John Doe"
-                value={name} onChange={(e) => setName(e.target.value)} required
-                style={{ width: "100%", paddingLeft: 42 }} />
+              <User
+                size={16}
+                style={{
+                  position: "absolute",
+                  left: 14,
+                  top: 13,
+                  color: "var(--text-muted)",
+                }}
+              />
+              <input
+                className="input-field"
+                type="text"
+                placeholder="Alex Morgan"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                required
+                style={{ width: "100%", paddingLeft: 40 }}
+              />
             </div>
           </div>
+
           <div className="input-group">
-            <label>Email</label>
+            <label>Email Address</label>
             <div style={{ position: "relative" }}>
-              <Mail size={18} style={{ position: "absolute", left: 14, top: 13, color: "var(--text-muted)" }} />
-              <input className="input-field" type="email" placeholder="you@example.com"
-                value={email} onChange={(e) => setEmail(e.target.value)} required
-                style={{ width: "100%", paddingLeft: 42 }} />
+              <Mail
+                size={16}
+                style={{
+                  position: "absolute",
+                  left: 14,
+                  top: 13,
+                  color: "var(--text-muted)",
+                }}
+              />
+              <input
+                className="input-field"
+                type="email"
+                placeholder="name@example.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                style={{ width: "100%", paddingLeft: 40 }}
+              />
             </div>
           </div>
+
           <div className="input-group">
             <label>Password</label>
             <div style={{ position: "relative" }}>
-              <Lock size={18} style={{ position: "absolute", left: 14, top: 13, color: "var(--text-muted)" }} />
-              <input className="input-field" type="password" placeholder="Min. 6 characters"
-                value={password} onChange={(e) => setPassword(e.target.value)} required
-                style={{ width: "100%", paddingLeft: 42 }} />
+              <Lock
+                size={16}
+                style={{
+                  position: "absolute",
+                  left: 14,
+                  top: 13,
+                  color: "var(--text-muted)",
+                }}
+              />
+              <input
+                className="input-field"
+                type="password"
+                placeholder="Min. 6 characters"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                style={{ width: "100%", paddingLeft: 40 }}
+              />
             </div>
           </div>
-          <button type="submit" className="btn btn-primary btn-lg" disabled={loading} style={{ width: "100%", marginTop: 8 }}>
-            {loading ? <div className="spinner" /> : <><UserPlus size={18} /> Create Account</>}
+
+          <button
+            type="submit"
+            className="btn btn-primary btn-lg"
+            disabled={loading}
+            style={{ width: "100%", marginTop: 6 }}
+          >
+            {loading ? <div className="spinner" /> : <><UserPlus size={16} /> Create Account</>}
           </button>
         </form>
 
-        <div style={{ display: "flex", alignItems: "center", margin: "24px 0", gap: 12 }}>
-          <div style={{ flex: 1, height: 1, background: "var(--border-color)" }} />
-          <span style={{ fontSize: 12, color: "var(--text-muted)", fontWeight: 600, textTransform: "uppercase" }}>Or continue with</span>
-          <div style={{ flex: 1, height: 1, background: "var(--border-color)" }} />
+        <div style={{ display: "flex", alignItems: "center", margin: "22px 0", gap: 12 }}>
+          <div style={{ flex: 1, height: 1, backgroundColor: "var(--border)" }} />
+          <span
+            style={{
+              fontSize: 11,
+              color: "var(--text-muted)",
+              fontWeight: 600,
+              textTransform: "uppercase",
+              letterSpacing: "0.5px",
+            }}
+          >
+            Or continue with
+          </span>
+          <div style={{ flex: 1, height: 1, backgroundColor: "var(--border)" }} />
         </div>
 
         <div style={{ display: "flex", justifyContent: "center" }}>
@@ -134,16 +225,19 @@ export default function RegisterPage() {
             onSuccess={handleGoogleSuccess}
             onError={() => toast.error("Google Sign-up failed")}
             useOneTap
-            theme="filled_blue"
-            shape="pill"
+            theme="filled_black"
+            shape="rectangular"
             width="100%"
             text="signup_with"
           />
         </div>
 
-        <p style={{ textAlign: "center", marginTop: 24, fontSize: 14, color: "var(--text-secondary)" }}>
+        <p style={{ textAlign: "center", marginTop: 24, fontSize: 13, color: "var(--text-secondary)" }}>
           Already have an account?{" "}
-          <Link to="/login" style={{ color: "var(--accent-primary)", fontWeight: 600, textDecoration: "none" }}>
+          <Link
+            to="/login"
+            style={{ color: "var(--accent)", fontWeight: 600, textDecoration: "none" }}
+          >
             Sign In
           </Link>
         </p>
