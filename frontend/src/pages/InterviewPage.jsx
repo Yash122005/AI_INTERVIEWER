@@ -798,18 +798,9 @@ export default function InterviewPage() {
       </header>
 
       {/* ── Main Content Area ──────────────────────────────── */}
-      <div style={{ display: "flex", flex: 1, overflow: "hidden" }}>
+      <div className="interview-layout">
         {/* Left Side: Question & Transcript Area */}
-        <div
-          style={{
-            flex: 1,
-            overflowY: "auto",
-            padding: "24px 32px",
-            display: "flex",
-            flexDirection: "column",
-            gap: 16,
-          }}
-        >
+        <div className="interview-chat-area">
           <AnimatePresence>
             {messages.map((msg, i) => (
               <motion.div
@@ -1016,16 +1007,7 @@ export default function InterviewPage() {
         </div>
 
         {/* Right Side: Proctoring & Verification Panel */}
-        <div
-          style={{
-            width: 280,
-            borderLeft: "1px solid var(--border)",
-            backgroundColor: "var(--surface)",
-            display: "flex",
-            flexDirection: "column",
-            padding: "20px",
-          }}
-        >
+        <div className="interview-proctor-panel">
           <div style={{ marginBottom: 20 }}>
             <h3
               style={{
@@ -1145,13 +1127,7 @@ export default function InterviewPage() {
 
       {/* ── Response Controls & Input Bar ──────────────────── */}
       {!isComplete && (
-        <footer
-          style={{
-            padding: "16px 24px",
-            borderTop: "1px solid var(--border)",
-            backgroundColor: "var(--surface)",
-          }}
-        >
+        <footer className="interview-footer">
           <div
             style={{
               paddingBottom: "10px",
@@ -1160,6 +1136,7 @@ export default function InterviewPage() {
               maxWidth: 860,
               margin: "0 auto",
               justifyContent: "flex-end",
+              flexWrap: "wrap",
             }}
           >
             <button

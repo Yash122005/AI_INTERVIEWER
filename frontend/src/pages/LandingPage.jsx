@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import {
   ArrowRight,
@@ -12,8 +13,10 @@ import {
   Mic,
   Layers,
   Award,
+  Menu,
+  X,
 } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 
 const features = [
   {
@@ -83,7 +86,10 @@ const fadeUp = {
 };
 
 export default function LandingPage() {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
   const scrollToSection = (id) => {
+    setMobileMenuOpen(false);
     const el = document.getElementById(id);
     if (el) el.scrollIntoView({ behavior: "smooth" });
   };
@@ -105,19 +111,23 @@ export default function LandingPage() {
           style={{
             maxWidth: 1200,
             margin: "0 auto",
-            padding: "16px 24px",
+            padding: "14px 20px",
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
           }}
         >
           {/* Logo */}
-          <Link to="/" style={{ display: "flex", alignItems: "center", gap: 12, textDecoration: "none" }}>
+          <Link
+            to="/"
+            onClick={() => setMobileMenuOpen(false)}
+            style={{ display: "flex", alignItems: "center", gap: 12, textDecoration: "none" }}
+          >
             <img
               src="/logo.png"
               alt="InterviewIQ Logo"
               style={{
-                height: 34,
+                height: 32,
                 width: "auto",
                 objectFit: "contain",
                 display: "block",
@@ -125,9 +135,9 @@ export default function LandingPage() {
             />
           </Link>
 
-          {/* Nav Links */}
-          <nav style={{ display: "flex", alignItems: "center", gap: 28 }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 24 }} className="desktop-nav">
+          {/* Desktop Nav Links */}
+          <nav className="landing-nav-desktop">
+            <div style={{ display: "flex", alignItems: "center", gap: 24 }}>
               <button
                 onClick={() => scrollToSection("features")}
                 style={{
@@ -187,11 +197,87 @@ export default function LandingPage() {
               </Link>
             </div>
           </nav>
+
+          {/* Mobile Menu Toggle Button */}
+          <div className="mobile-only">
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="btn btn-secondary btn-sm"
+              style={{ padding: "8px", borderRadius: "var(--radius)" }}
+              aria-label="Toggle navigation menu"
+            >
+              {mobileMenuOpen ? <X size={18} /> : <Menu size={18} />}
+            </button>
+          </div>
         </div>
+
+        {/* Mobile Dropdown Menu Drawer */}
+        <AnimatePresence>
+          {mobileMenuOpen && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.2 }}
+              style={{
+                backgroundColor: "rgba(16, 26, 31, 0.98)",
+                borderTop: "1px solid var(--border)",
+                borderBottom: "1px solid var(--border)",
+                padding: "18px 20px",
+                display: "flex",
+                flexDirection: "column",
+                gap: 12,
+              }}
+            >
+              <button
+                onClick={() => scrollToSection("features")}
+                className="btn btn-ghost"
+                style={{ justifyContent: "flex-start", width: "100%", fontSize: 14 }}
+              >
+                Features
+              </button>
+              <button
+                onClick={() => scrollToSection("how-it-works")}
+                className="btn btn-ghost"
+                style={{ justifyContent: "flex-start", width: "100%", fontSize: 14 }}
+              >
+                How It Works
+              </button>
+              <button
+                onClick={() => scrollToSection("product-preview")}
+                className="btn btn-ghost"
+                style={{ justifyContent: "flex-start", width: "100%", fontSize: 14 }}
+              >
+                Product Preview
+              </button>
+
+              <div style={{ height: 1, backgroundColor: "var(--border)", margin: "4px 0" }} />
+
+              <div style={{ display: "flex", flexDirection: "column", gap: 8, marginTop: 4 }}>
+                <Link
+                  to="/login"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="btn btn-secondary"
+                  style={{ width: "100%", justifyContent: "center" }}
+                >
+                  Log In
+                </Link>
+                <Link
+                  to="/register"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="btn btn-primary"
+                  style={{ width: "100%", justifyContent: "center" }}
+                >
+                  Get Started
+                </Link>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </header>
 
       {/* ── 2. Hero Section ───────────────────────────────────── */}
-      <section style={{ maxWidth: 1000, margin: "0 auto", padding: "72px 24px 48px", textAlign: "center" }}>
+      <section style={{ maxWidth: 1000, margin: "0 auto", padding: "56px 20px 40px", textAlign: "center" }}>
         <motion.div initial="hidden" animate="visible" variants={stagger}>
           {/* Eyebrow */}
           <motion.div
@@ -209,7 +295,7 @@ export default function LandingPage() {
               color: "var(--accent)",
               letterSpacing: "1px",
               textTransform: "uppercase",
-              marginBottom: 24,
+              marginBottom: 20,
             }}
           >
             <Brain size={14} /> AI-POWERED INTERVIEW PRACTICE
@@ -219,12 +305,12 @@ export default function LandingPage() {
           <motion.h1
             variants={fadeUp}
             style={{
-              fontSize: "clamp(38px, 6vw, 60px)",
+              fontSize: "clamp(32px, 5.5vw, 56px)",
               fontWeight: 800,
-              lineHeight: 1.12,
+              lineHeight: 1.15,
               letterSpacing: "-0.03em",
               color: "var(--text-primary)",
-              marginBottom: 20,
+              marginBottom: 18,
             }}
           >
             Practice Smarter.
@@ -236,11 +322,11 @@ export default function LandingPage() {
           <motion.p
             variants={fadeUp}
             style={{
-              fontSize: "clamp(15px, 2vw, 17px)",
+              fontSize: "clamp(14px, 2vw, 17px)",
               lineHeight: 1.65,
               color: "var(--text-secondary)",
               maxWidth: 620,
-              margin: "0 auto 36px",
+              margin: "0 auto 32px",
             }}
           >
             InterviewIQ simulates realistic interviews with AI, analyzes your responses, and gives you actionable
@@ -250,13 +336,17 @@ export default function LandingPage() {
           {/* Action Buttons */}
           <motion.div
             variants={fadeUp}
-            style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}
+            style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}
           >
-            <Link to="/register" className="btn btn-primary btn-lg">
+            <Link to="/register" className="btn btn-primary btn-lg" style={{ minWidth: 180 }}>
               Start Practicing <ArrowRight size={16} />
             </Link>
-            <button onClick={() => scrollToSection("product-preview")} className="btn btn-secondary btn-lg">
-              Explore InterviewIQ
+            <button
+              onClick={() => scrollToSection("product-preview")}
+              className="btn btn-secondary btn-lg"
+              style={{ minWidth: 180 }}
+            >
+              Explore Demo
             </button>
           </motion.div>
         </motion.div>
@@ -265,35 +355,18 @@ export default function LandingPage() {
       {/* ── 3. Realistic Product Preview Visual ────────────────── */}
       <section
         id="product-preview"
-        style={{ maxWidth: 1100, margin: "0 auto", padding: "16px 24px 80px" }}
+        style={{ maxWidth: 1100, margin: "0 auto", padding: "16px 16px 64px" }}
       >
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-50px" }}
           transition={{ duration: 0.5 }}
-          style={{
-            backgroundColor: "var(--surface)",
-            border: "1px solid rgba(166, 124, 82, 0.25)",
-            borderRadius: "var(--radius-xl)",
-            overflow: "hidden",
-            boxShadow: "0 24px 60px rgba(0, 0, 0, 0.6)",
-          }}
+          className="demo-preview-card"
         >
           {/* Mock Header */}
-          <div
-            style={{
-              padding: "16px 24px",
-              backgroundColor: "rgba(12, 21, 25, 0.7)",
-              borderBottom: "1px solid var(--border)",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              flexWrap: "wrap",
-              gap: 12,
-            }}
-          >
-            <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+          <div className="demo-preview-header">
+            <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
               <div
                 style={{
                   width: 10,
@@ -301,6 +374,7 @@ export default function LandingPage() {
                   borderRadius: "50%",
                   backgroundColor: "var(--success)",
                   boxShadow: "0 0 8px rgba(52, 211, 153, 0.4)",
+                  flexShrink: 0,
                 }}
               />
               <span style={{ fontSize: 13, fontWeight: 700, color: "var(--text-primary)" }}>
@@ -320,7 +394,7 @@ export default function LandingPage() {
               </span>
             </div>
 
-            <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
               <div
                 style={{
                   display: "flex",
@@ -349,24 +423,21 @@ export default function LandingPage() {
           </div>
 
           {/* Mock Content Body */}
-          <div style={{ padding: 28, display: "grid", gridTemplateColumns: "1fr 300px", gap: 24 }}>
+          <div className="demo-preview-grid">
             {/* Left: Interactive Q&A */}
-            <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
               {/* Question Bubble */}
               <div
+                className="demo-bubble"
                 style={{
                   backgroundColor: "var(--background)",
                   border: "1px solid var(--border)",
-                  borderRadius: "var(--radius-lg)",
-                  padding: 20,
-                  display: "flex",
-                  gap: 14,
                 }}
               >
                 <div
                   style={{
-                    width: 38,
-                    height: 38,
+                    width: 36,
+                    height: 36,
                     borderRadius: "var(--radius)",
                     backgroundColor: "var(--accent-soft)",
                     border: "1px solid rgba(166, 124, 82, 0.3)",
@@ -376,13 +447,13 @@ export default function LandingPage() {
                     flexShrink: 0,
                   }}
                 >
-                  <Bot size={20} color="var(--accent)" />
+                  <Bot size={18} color="var(--accent)" />
                 </div>
-                <div>
+                <div style={{ flex: 1, minWidth: 0 }}>
                   <div style={{ fontSize: 11, fontWeight: 700, color: "var(--accent)", textTransform: "uppercase", marginBottom: 4 }}>
                     AI Interviewer • Question 3 of 5
                   </div>
-                  <p style={{ fontSize: 14, lineHeight: 1.6, color: "var(--text-primary)" }}>
+                  <p style={{ fontSize: 13, lineHeight: 1.6, color: "var(--text-primary)" }}>
                     "How would you handle database connection pooling in a distributed Node.js microservices architecture to prevent connection saturation during traffic spikes?"
                   </p>
                 </div>
@@ -390,19 +461,16 @@ export default function LandingPage() {
 
               {/* Candidate Response Bubble */}
               <div
+                className="demo-bubble"
                 style={{
                   backgroundColor: "rgba(22, 33, 39, 0.8)",
                   border: "1px solid rgba(166, 124, 82, 0.2)",
-                  borderRadius: "var(--radius-lg)",
-                  padding: 20,
-                  display: "flex",
-                  gap: 14,
                 }}
               >
                 <div
                   style={{
-                    width: 38,
-                    height: 38,
+                    width: 36,
+                    height: 36,
                     borderRadius: "var(--radius)",
                     backgroundColor: "var(--coffee-soft)",
                     border: "1px solid var(--accent-secondary)",
@@ -412,9 +480,9 @@ export default function LandingPage() {
                     flexShrink: 0,
                   }}
                 >
-                  <User size={20} color="var(--text-primary)" />
+                  <User size={18} color="var(--text-primary)" />
                 </div>
-                <div>
+                <div style={{ flex: 1, minWidth: 0 }}>
                   <div style={{ fontSize: 11, fontWeight: 700, color: "var(--text-secondary)", textTransform: "uppercase", marginBottom: 4 }}>
                     Your Response (Speech-to-Text)
                   </div>
@@ -429,18 +497,27 @@ export default function LandingPage() {
                 style={{
                   display: "flex",
                   alignItems: "center",
-                  gap: 12,
-                  padding: "12px 16px",
+                  gap: 10,
+                  padding: "12px 14px",
                   backgroundColor: "var(--background)",
                   borderRadius: "var(--radius)",
                   border: "1px solid rgba(166, 124, 82, 0.25)",
                 }}
               >
-                <Mic size={18} color="var(--accent)" />
-                <span style={{ fontSize: 13, color: "var(--text-muted)", flex: 1 }}>
-                  Listening... Continue speaking or type your answer
+                <Mic size={18} color="var(--accent)" style={{ flexShrink: 0 }} />
+                <span
+                  style={{
+                    fontSize: 12,
+                    color: "var(--text-muted)",
+                    flex: 1,
+                    whiteSpace: "nowrap",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                  }}
+                >
+                  Listening... Continue speaking or type answer
                 </span>
-                <span className="badge badge-ongoing" style={{ fontSize: 10 }}>Active</span>
+                <span className="badge badge-ongoing" style={{ fontSize: 10, flexShrink: 0 }}>Active</span>
               </div>
             </div>
 
@@ -450,13 +527,13 @@ export default function LandingPage() {
                 backgroundColor: "var(--background)",
                 border: "1px solid var(--border)",
                 borderRadius: "var(--radius-lg)",
-                padding: 20,
+                padding: "18px 16px",
                 display: "flex",
                 flexDirection: "column",
-                gap: 16,
+                gap: 14,
               }}
             >
-              <div style={{ fontSize: 12, fontWeight: 700, color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.5px" }}>
+              <div style={{ fontSize: 11, fontWeight: 700, color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.5px" }}>
                 Real-Time Analysis
               </div>
 
@@ -468,7 +545,7 @@ export default function LandingPage() {
                 { label: "Confidence", score: 9.0, max: 10 },
               ].map((m, idx) => (
                 <div key={idx}>
-                  <div style={{ display: "flex", justifyContent: "space-between", fontSize: 12, marginBottom: 6 }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", fontSize: 12, marginBottom: 5 }}>
                     <span style={{ color: "var(--text-secondary)" }}>{m.label}</span>
                     <span style={{ color: "var(--accent)", fontWeight: 700, fontFamily: "var(--font-mono)" }}>
                       {m.score}/{m.max}
@@ -510,8 +587,8 @@ export default function LandingPage() {
       </section>
 
       {/* ── 4. Features Section ───────────────────────────────── */}
-      <section id="features" style={{ maxWidth: 1100, margin: "0 auto", padding: "40px 24px 80px" }}>
-        <div style={{ textAlign: "center", marginBottom: 48 }}>
+      <section id="features" style={{ maxWidth: 1100, margin: "0 auto", padding: "40px 20px 72px" }}>
+        <div style={{ textAlign: "center", marginBottom: 40 }}>
           <div
             style={{
               fontSize: 11,
@@ -526,7 +603,7 @@ export default function LandingPage() {
           </div>
           <h2
             style={{
-              fontSize: "clamp(24px, 4vw, 32px)",
+              fontSize: "clamp(22px, 3.5vw, 32px)",
               fontWeight: 800,
               color: "var(--text-primary)",
               letterSpacing: "-0.02em",
@@ -536,7 +613,7 @@ export default function LandingPage() {
           </h2>
         </div>
 
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: 20 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 18 }}>
           {features.map((f, i) => (
             <motion.div
               key={i}
@@ -546,16 +623,16 @@ export default function LandingPage() {
               transition={{ delay: i * 0.05, duration: 0.4 }}
               className="card"
               style={{
-                padding: 28,
+                padding: "24px 20px",
                 display: "flex",
                 flexDirection: "column",
-                gap: 14,
+                gap: 12,
               }}
             >
               <div
                 style={{
-                  width: 40,
-                  height: 40,
+                  width: 38,
+                  height: 38,
                   borderRadius: "var(--radius)",
                   backgroundColor: "var(--accent-soft)",
                   border: "1px solid rgba(166, 124, 82, 0.2)",
@@ -564,18 +641,18 @@ export default function LandingPage() {
                   justifyContent: "center",
                 }}
               >
-                <f.icon size={20} color="var(--accent)" />
+                <f.icon size={18} color="var(--accent)" />
               </div>
-              <h3 style={{ fontSize: 16, fontWeight: 700, color: "var(--text-primary)" }}>{f.title}</h3>
-              <p style={{ fontSize: 13, lineHeight: 1.65, color: "var(--text-secondary)" }}>{f.description}</p>
+              <h3 style={{ fontSize: 15, fontWeight: 700, color: "var(--text-primary)" }}>{f.title}</h3>
+              <p style={{ fontSize: 13, lineHeight: 1.6, color: "var(--text-secondary)" }}>{f.description}</p>
             </motion.div>
           ))}
         </div>
       </section>
 
       {/* ── 5. How It Works Section ───────────────────────────── */}
-      <section id="how-it-works" style={{ maxWidth: 1100, margin: "0 auto", padding: "40px 24px 80px" }}>
-        <div style={{ textAlign: "center", marginBottom: 48 }}>
+      <section id="how-it-works" style={{ maxWidth: 1100, margin: "0 auto", padding: "40px 20px 72px" }}>
+        <div style={{ textAlign: "center", marginBottom: 40 }}>
           <div
             style={{
               fontSize: 11,
@@ -590,7 +667,7 @@ export default function LandingPage() {
           </div>
           <h2
             style={{
-              fontSize: "clamp(24px, 4vw, 32px)",
+              fontSize: "clamp(22px, 3.5vw, 32px)",
               fontWeight: 800,
               color: "var(--text-primary)",
               letterSpacing: "-0.02em",
@@ -600,29 +677,29 @@ export default function LandingPage() {
           </h2>
         </div>
 
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 24 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 20 }}>
           {steps.map((st, i) => (
             <div
               key={i}
               className="card"
               style={{
-                padding: 32,
+                padding: "28px 24px",
                 position: "relative",
               }}
             >
               <div
                 style={{
-                  fontSize: 36,
+                  fontSize: 32,
                   fontWeight: 900,
                   color: "var(--accent)",
                   opacity: 0.6,
                   fontFamily: "var(--font-mono)",
-                  marginBottom: 12,
+                  marginBottom: 10,
                 }}
               >
                 {st.step}
               </div>
-              <h3 style={{ fontSize: 18, fontWeight: 700, color: "var(--text-primary)", marginBottom: 8 }}>
+              <h3 style={{ fontSize: 17, fontWeight: 700, color: "var(--text-primary)", marginBottom: 8 }}>
                 {st.title}
               </h3>
               <p style={{ fontSize: 13, lineHeight: 1.6, color: "var(--text-secondary)" }}>{st.desc}</p>
@@ -632,25 +709,25 @@ export default function LandingPage() {
       </section>
 
       {/* ── 6. Bottom CTA Section ─────────────────────────────── */}
-      <section style={{ maxWidth: 1100, margin: "0 auto", padding: "0 24px 80px" }}>
+      <section style={{ maxWidth: 1100, margin: "0 auto", padding: "0 20px 72px" }}>
         <div
           className="card"
           style={{
-            padding: "56px 32px",
+            padding: "48px 24px",
             textAlign: "center",
             backgroundColor: "var(--surface)",
             border: "1px solid rgba(166, 124, 82, 0.25)",
           }}
         >
-          <h2 style={{ fontSize: "clamp(24px, 4vw, 32px)", fontWeight: 800, color: "var(--text-primary)", marginBottom: 12 }}>
+          <h2 style={{ fontSize: "clamp(22px, 3.5vw, 30px)", fontWeight: 800, color: "var(--text-primary)", marginBottom: 12 }}>
             Ready to master your technical interviews?
           </h2>
           <p
             style={{
               color: "var(--text-secondary)",
-              fontSize: 15,
+              fontSize: 14,
               maxWidth: 520,
-              margin: "0 auto 32px",
+              margin: "0 auto 28px",
               lineHeight: 1.6,
             }}
           >
@@ -664,26 +741,10 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ── 7. Official Footer ─────────────────────────────────── */}
-      <footer
-        style={{
-          borderTop: "1px solid rgba(166, 124, 82, 0.15)",
-          backgroundColor: "rgba(12, 21, 25, 0.8)",
-          padding: "32px 24px",
-        }}
-      >
-        <div
-          style={{
-            maxWidth: 1200,
-            margin: "0 auto",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            flexWrap: "wrap",
-            gap: 16,
-          }}
-        >
-          <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+      {/* ── 7. Official Responsive Footer ─────────────────────── */}
+      <footer className="landing-footer">
+        <div className="footer-content">
+          <div className="footer-brand">
             <img
               src="/logo.png"
               alt="InterviewIQ Logo"
@@ -698,11 +759,11 @@ export default function LandingPage() {
             </span>
           </div>
 
-          <div style={{ display: "flex", alignItems: "center", gap: 20, fontSize: 13, color: "var(--text-muted)" }}>
-            <Link to="/login" style={{ color: "var(--text-secondary)", textDecoration: "none" }}>
+          <div className="footer-links">
+            <Link to="/login" style={{ color: "var(--text-secondary)", textDecoration: "none", padding: "4px 8px" }}>
               Sign In
             </Link>
-            <Link to="/register" style={{ color: "var(--text-secondary)", textDecoration: "none" }}>
+            <Link to="/register" style={{ color: "var(--text-secondary)", textDecoration: "none", padding: "4px 8px" }}>
               Register
             </Link>
           </div>
@@ -711,3 +772,4 @@ export default function LandingPage() {
     </div>
   );
 }
+
